@@ -1,0 +1,42 @@
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Boxicons -->
+
+	<!-- My CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='start.css') }}">
+
+	<title>乳腺肿瘤诊断系统-入口</title>
+</head>
+<body style="margin: 0; padding: 0; height: 100vh; display: flex; justify-content: center; align-items: center; background: #eee; font-family: Helvetica, sans-serif;">
+
+    <div style="display: flex; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 10px; padding: 60px 80px; align-items: center;">
+  
+      <!-- 左边文字 -->
+      <div style="flex: 1; padding-right: 60px; text-align: center; min-width:max-content;">
+        <h1 style="font-size: 48px; font-weight: bold; margin-bottom: 20px; color: #333;">乳腺肿瘤诊断系统</h1>
+        <h2 style="font-size: 20px; color: #555; margin-bottom: 8px;font-family:'Times New Roman', Times, serif;">基于深度时空分析超声造影-灰阶双模态影像</h2>
+        <h3 style="font-size: 14px; color: #4a89dc;">Breast tumor diagnosis system based on deep spatiotemporal analysis</h3>
+        <img src="{{ url_for('static', filename='image/LOGO.png') }}" style="width: 80px; margin-top: 40px;">
+        <p style="font-size: 13px; color: #888;">Developed by <a href="https://bme.seu.edu.cn/" target="_blank" style="color: #4a89dc;">Yan Youji</a></p>
+      </div>
+  
+      <!-- 右边表单 -->
+      <form style="flex: 1; min-width: 400px; padding: 2em 0;">
+        <div class="group">
+          <input type="text" required><span class="highlight"></span><span class="bar"></span>
+          <label>患者编号 Patient Number</label>
+        </div>
+        <div class="group">
+          <input type="text" required><span class="highlight"></span><span class="bar"></span>
+          <label>身份证号 Identification Number</label>
+        </div>
+        <button type="button" class="button buttonBlue" onclick="redirectWithID()">确认
+          <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+        </button>
+      </form>
+    </div>
+    <script src="{{ url_for('static', filename='info/patient.js') }}"></script>
+    <script src="{{ url_for('static', filename='start.js') }}"></script>
+  </body>

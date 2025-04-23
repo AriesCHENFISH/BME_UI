@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Boxicons -->
+	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+	<link href='https://unpkg.com/boxicons@2.1.4/dist/boxicons.js' rel='stylesheet'>
+
+	<!-- My CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+	<title>乳腺肿瘤诊断系统-工作区</title>
+</head>
+<body>
+	<!-- SIDEBAR -->
+	<section id="sidebar">
+		<a href="#" class="brand">
+			<img src="{{ url_for('static', filename='image/LOGO.png') }}" style="width: 40px; margin-top: 10px;">
+			<span class="text" style="font-size: large;">乳腺肿瘤诊断系统</span>
+		</a>
+		<ul class="side-menu top">
+            <li >
+              <a href="#" data-target="instructions">
+                <i class='bx bx-help-circle bx-sm'></i>
+                <span class="text">使用指南</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" data-target="patient-info">
+                <i class='bx bxs-id-card bx-sm'></i>
+                <span class="text">患者信息</span>
+              </a>
+            </li>
+            <li class="active">
+              <a href="#" data-target="workbenchs">
+                <i class='bx bxs-category-alt bx-sm'></i>
+                <span class="text">工作台</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" data-target="analytics">
+                <i class='bx bx-pulse bx-sm'></i>
+                <span class="text">分析记录</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" data-target="case-history">
+                <i class='bx bx-history bx-sm'></i>
+                <span class="text">历史病例</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" data-target="about-us">
+                <i class='bx bxs-info-circle bx-sm'></i>
+                <span class="text">关于</span>
+              </a>
+            </li>
+          </ul>
+          
+		<ul class="side-menu bottom">
+			<li>
+				<a href="#">
+					<i class='bx bxs-cog bx-sm bx-spin-hover' ></i>
+					<span class="text">Settings</span>
+				</a>
+			</li>
+			<li>
+				<a href="#" class="logout">
+					<i class='bx bx-power-off bx-sm bx-burst-hover' ></i>
+					<span class="text">Logout</span>
+				</a>
+			</li>
+		</ul>
+	</section>
+	<!-- SIDEBAR -->
+
+
+
+	<!-- CONTENT -->
+	<section id="content">
+		<!-- NAVBAR -->
+<nav>
+    <i class='bx bx-menu bx-sm' ></i>
+    <a href="#" class="nav-link">Categories</a>
+    <form action="#">
+        <div class="form-input">
+            <input type="search" placeholder="Search...">
+            <button type="submit" class="search-btn"><i class='bx bx-search' ></i></button>
+        </div>
+    </form>
+    <input type="checkbox" class="checkbox" id="switch-mode" hidden />
+    <label class="swith-lm" for="switch-mode">
+        <i class="bx bxs-moon"></i>
+        <i class="bx bx-sun"></i>
+        <div class="ball"></div>
+    </label>
+
+    <!-- Notification Bell -->
+    <!-- Notification Bell -->
+    <a href="#" class="notification" id="notificationIcon">
+        <i class='bx bxs-cloud-download' ></i>
+        <span class="num">1</span>
+    </a>
+
+    <div class="notification-menu" id="notificationMenu">
+        <ul>
+            <li>
+                Case '20250329_2' download successful!
+                <br />
+                <button class="view-btn" onclick="viewFile('20250329_2')">viewFile</button>
+            </li>
+            <li>
+                Case '20250329_1' download successful!
+                <br />
+                <button class="view-btn" onclick="viewFile('20250329_1')">viewFile</button>
+            </li>
+            <li>
+                Case '20250328_1' download successful!
+                <br />
+                <button class="view-btn" onclick="viewFile('20250328_1')">viewFile</button>
+            </li>
+            
+        </ul>
+    </div>
+
+
+    <!-- Profile Menu -->
+    <a href="#" class="profile" id="profileIcon">
+        <i class='bx bxs-user-circle bx-sm'  ></i>
+    </a>
+    <div class="profile-menu" id="profileMenu">
+        <ul>
+            <li><a href="#">My Doctor Profile</a></li>
+            <li><a href="#">Settings</a></li>
+            <li><a href="#">Log Out</a></li>
+        </ul>
+    </div>
+</nav>
+<!-- NAVBAR -->
+
+
+		<!-- MAIN -->
+		<main>
+            <div id="instructions" class="content-section" style="display: none;">
+                <div class="head-title">
+                    <div class="left">
+                        <h1>使用指南 Instructions</h1>
+                        <ul class="breadcrumb">
+                            <li>
+                                <a href="#">Upload Images</a>
+                            </li>
+                            <li><i class='bx bx-chevron-right' ></i></li>
+                            <li>
+                                <a class="active" href="#">Download Cases</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <a href="{{ url_for('static', filename='README.pdf') }}" class="btn-download" download>
+                        <i class='bx bxs-cloud-download bx-fade-down-hover'></i>
+                        <span class="text">Get README</span>
+                    </a>
+                    
+                </div>
+
+                <ul class="box-info">
+                    <!-- PART 1 -->
+                    <li>
+                    <i class='bx bxs-image-add'></i>
+                    <span class="text">
+                        <h3>Step 1: Upload Images</h3>
+                        <p>📁 <strong>Supported Types:</strong> B-mode images and CEUS video (PNG / JPG / MP4)</p>
+                        <p>🖼️ You can upload multiple images at once, drag & drop supported.</p>
+                        <p>📏 Please make sure image resolution is <strong>400×600</strong> for best results.</p>
+                        <p>🔍 Preview images before submission to avoid input mistakes.</p>
+                        <p>🆔 File names must be anonymized (no patient info).</p>
+                        <p>⏱️ CEUS video should be at least <strong>10 seconds</strong> long to capture perfusion.</p>
+                        <p>📌 <em>Tip:</em> The system auto-selects key CEUS frames for optimal performance.</p>
+                    </span>
+                    </li>
+                
+                    <!-- PART 2 -->
+                    <li>
+                    <i class='bx bxs-bot'></i>
+                    <span class="text">
+                        <h3>Step 2: Run AI Inference</h3>
+                        <p>🤖 Click <strong>Run Diagnosis</strong> to launch the model.</p>
+                        <p>🧠 The model performs tumor segmentation and classifies lesion as <strong>benign or malignant</strong>.</p>
+                        <p>🩺 Extracted features include:</p>
+                        <p>📈 Time-intensity curve</p>
+                        <p>📊 Peak intensity & time-to-peak</p>
+                        <p>🎯 Tumor center & size</p>
+                        <p>⚡ Inference takes ~5s per case and runs on either local or cloud backend.</p>
+                        <p>🔎 Results will be visualized immediately after processing completes.</p>
+                    </span>
+                    </li>
+                
+                    <!-- PART 3 -->
+                    <li>
+                    <i class='bx bxs-file-export'></i>
+                    <span class="text">
+                        <h3>Step 3: Generate Diagnostic Report</h3>
+                        <p>📋 All results are compiled into a structured, printable report.</p>
+                        <p>🖼️ Includes original image with overlay, tumor location, and AI classification.</p>
+                        <p>📂 One-click export available in PDF and JSON formats.</p>
+                        <p>🧾 Each report has a unique case ID and is automatically saved in the case archive.</p>
+                        <p>🔐 Reports can be securely shared with medical teams or uploaded to patient records.</p>
+                        <p>🛠️ <em>Tip:</em> You can customize the report format in the <strong>Settings</strong> panel.</p>
+                    </span>
+                    </li>
+                </ul>
+            </div>
+
+            <div id="patient-info" class="content-section" style="display: none;">
+                <div class="head-title">
+                    <div class="left">
+                      <h1>患者信息 Patient Infomation</h1>
+                      <ul class="breadcrumb">
+                        <li><a href="#">Dashboard</a></li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        <li><a class="active" href="#">Patient Info</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                  
+                  <form action="#" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 60px; margin-top: 50px;">
+                    <!-- Full Name -->
+                    <div>
+                      <label style="color:rgb(0, 140, 255);">Full Name</label>
+                      <div class="form-input">
+                        <input type="text" placeholder="e.g. Sarah Johnson" required />
+                      </div>
+                      <small style="color:rgb(99, 101, 103);">Letters and spaces only</small>
+                    </div>
+                  
+                    <!-- Gender -->
+                    <div>
+                        <label style="color:rgb(0, 140, 255);">Gender</label>
+                        <div class="form-input">
+                          <select style="
+                            height: 36px;
+                            width: 100%;
+                            padding: 0 16px;
+                            border: none;
+                            background-color: transparent;
+                            appearance: none;
+                            -webkit-appearance: none;
+                            -moz-appearance: none;
+                            color: var(--dark);
+                            font-size: 14px;
+                            font-family: var(--poppins);
+                            cursor: pointer;
+                          ">
+                            <option disabled selected hidden style="color:rgb(99, 101, 103)">Select gender</option>
+                            <option value="female">Female</option>
+                            <option value="male">Male</option>
+                            <option value="other">Other</option>
+                          </select>
+                        </div>
+                        <small style="color:rgb(99, 101, 103);">Required field</small>
+                      </div>
+                      
+                  
+                    <!-- Date of Birth -->
+                    <div>
+                      <label style="color:rgb(0, 140, 255);">Date of Birth</label>
+                      <div class="form-input">
+                        <input type="date" required />
+                      </div>
+                      <small style="color:rgb(99, 101, 103);">Format: YYYY-MM-DD</small>
+                    </div>
+                  
+                    <!-- ID Number -->
+                    <div>
+                      <label style="color:rgb(0, 140, 255);">ID / Passport Number</label>
+                      <div class="form-input">
+                        <input type="text" placeholder="e.g. A123456789" />
+                      </div>
+                      <small style="color:rgb(99, 101, 103);">Numbers and capital letters only</small>
+                    </div>
+                  
+                    <!-- Phone Number -->
+                    <div>
+                      <label style="color:rgb(0, 140, 255);">Phone Number</label>
+                      <div class="form-input">
+                        <input type="tel" placeholder="e.g. +61 400 123 456" />
+                      </div>
+                      <small style="color:rgb(99, 101, 103);">Include country code</small>
+                    </div>
+                  
+                    <!-- Email -->
+                    <div>
+                      <label style="color:rgb(0, 140, 255);">Email Address</label>
+                      <div class="form-input">
+                        <input type="email" placeholder="e.g. user@example.com" />
+                      </div>
+                      <small style="color:rgb(99, 101, 103);">Valid email format required</small>
+                    </div>
+
+                    
+                  
+                    <!-- Upload File -->
+                    <div>
+                        <label style="color:rgb(0, 140, 255);">Upload Patient File</label>
+                        <div class="form-input">
+                          <input type="file" id="fileUpload" accept=".pdf,.doc,.docx,.csv" style="display: none;" />
+                          
+                          <label for="fileUpload" style="
+                            width: 100%;
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 8px;
+                            padding: 8px 20px;
+                            background-color: none;
+                            color: black;
+                            border-radius: 36px;
+                            cursor: pointer;
+                            font-size: 14px;
+                            font-family: 'Poppins', sans-serif;
+                          ">
+                            <i class='bx bx-upload'></i>
+                            Upload
+                          </label>
+                        </div>
+                        <small style="color:rgb(99, 101, 103);">PDF, Word or CSV only</small>
+                      </div>
+                      
+                  
+                    <!-- Clear Button -->
+                    <div style="align-self: end;">
+                      <button type="reset" class="view-btn" style="background-color: var(--red);">Clear All</button>
+                    </div>
+                  </form>
+                  
+                  <!-- Action Buttons -->
+                  <div style="margin-top: 20px; display: flex; gap: 20px;">
+                    <button class="view-btn">Search</button>
+                    <button class="view-btn">Import</button>
+                    <button class="view-btn">Export</button>
+                    <button class="view-btn" style="background-color: var(--blue);">Submit</button>
+                  </div>
+
+                  <div class="table-data">
+                    <div class="order">
+                        <div class="head">
+                            <h3>Recent Cases</h3>
+                            <i class='bx bx-search' ></i>
+                            <i class='bx bx-filter' ></i>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Patient</th>
+                                    <th>Date of the Latest Diagnose</th>
+                                    <th>Results</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <img src="https://placehold.co/600x400/png">
+                                        <p>Micheal John</p>
+                                    </td>
+                                    <td>26-3-2025</td>
+                                    <td><span class="status completed">Benign</span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <img src="https://placehold.co/600x400/png">
+                                        <p>Ryan Doe</p>
+                                    </td>
+                                    <td>26-3-2025</td>
+                                    <td><span class="status pending">Malignant</span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <img src="https://placehold.co/600x400/png">
+                                        <p>Tarry White</p>
+                                    </td>
+                                    <td>26-3-2025</td>
+                                    <td><span class="status pending">Malignant</span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <img src="https://placehold.co/600x400/png">
+                                        <p>Selma</p>
+                                    </td>
+                                    <td>26-3-2025</td>
+                                    <td><span class="status pending">Malignant</span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <img src="https://placehold.co/600x400/png">
+                                        <p>Andreas Doe</p>
+                                    </td>
+                                    <td>26-3-2025</td>
+                                    <td><span class="status completed">Benign</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+              </div>
+
+            </div>
+
+             
+
+                <!-- Workbench Section -->
+            <div id="workbenchs" class="content-section">
+                <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+                <div class="app">
+                <!-- Sidebar -->
+                <aside id="sidebar1" class="sidebar1">
+                    <h2>Patient Info</h2>
+                    <h2>患者信息</h2>
+                    <p><strong>姓名:</strong> <span id="patientName"></span></p>
+                    <p><strong>编号:</strong> <span id="patientID"></span></p>
+                    <p><strong>身份证号:</strong> <span id="patientCard"></span></p>
+                    <p><strong>性别:</strong> <span id="patientGender"></span></p>
+                    <p><strong>年龄:</strong> <span id="patientBirthday"></span></p>
+                    <p><strong>联系方式:</strong> <span id="patientPhone"></span></p>
+                    <p><strong>邮箱:</strong> <span id="patientEmail"></span></p>
+
+
+
+                    <button onclick="toggleSidebar()" class="toggle-btn">隐藏患者信息</button>
+                  </aside>
+            
+                <!-- Main Content -->
+                <main>
+                    
+
+                    <div class="head-title">
+                        <div class="left">
+                            
+                            <h1>
+                               
+                                工作台 Workbench
+                            </h1>
+                            <ul class="breadcrumb">
+                                <li>
+                                    <a href="#">Upload Images</a>
+                                </li>
+                                <li><i class='bx bx-chevron-right' ></i></li>
+                                <li>
+                                    <a class="active" href="#">Download Cases</a>
+                                </li>
+                            </ul>
+                            
+                        </div>
+                        <button style="padding: 10px; font-size: 16px; background: #062958; color: white; border: none; border-radius: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; gap: 8px;" onclick="toggleSidebar()"><i class='bx bxs-user-detail' style='color:#ffffff' ></i>显示患者信息</button>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; gap: 24px;">
+                        <!-- Upload Section -->
+                        <section class="card" style="flex: 1; display: flex; flex-direction: column; gap: 16px;">
+                            <!-- Combined Upload Controls (Side-by-side) -->
+                            <div style="display: flex; gap: 24px; background: #F9F9F9; padding: 20px; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 24px;">
+                        
+                                <!-- B-mode Upload -->
+                                <div style="flex: 1;">
+                                    <label style="font-weight: 600; font-size: 16px; display: block; margin-bottom: 10px;">更新B-mode影像</label>
+                                    <input type="file" id="bmodeInput" accept="image/jpeg, image/png" style="display: none;" onchange="handleBmodeUpload(event)" />
+                                    <button class="upload-btn" style="width: 100%; padding: 10px; font-size: 16px; background: #3C91E6; color: white; border: none; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; gap: 8px;" onclick="document.getElementById('bmodeInput').click();">
+                                        <i class='bx bx-upload'></i> Upload B-mode
+                                    </button>
+                                    <small style="display: block; margin-top: 8px; color: #555;">格式: JPG / PNG &nbsp; | &nbsp; 最大尺寸: 10MB</small>
+                                </div>
+                        
+                                <!-- CEUS Upload -->
+                                <div style="flex: 1;">
+                                    <label style="font-weight: 600; font-size: 16px; display: block; margin-bottom: 10px;">更新CEUS影像</label>
+                                    <!-- <input type="file" id="ceusInput" accept="video/mp4" style="display: none;" onchange="handleCeusUpload(event)" /> -->
+                                    <input type="file" id="ceusInput" accept="image/*" webkitdirectory directory multiple onchange="handleCeusUpload(event)" style="display: none;"/>
+
+                                    <button class="upload-btn" style="width: 100%; padding: 10px; font-size: 16px; background: #3C91E6; color: white; border: none; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; gap: 8px;" onclick="document.getElementById('ceusInput').click();">
+                                        <i class='bx bx-upload'></i> Upload CEUS
+                                    </button>
+                                    <small style="display: block; margin-top: 8px; color: #555;">格式: 含有60帧图像的文件夹 &nbsp; | &nbsp; 每张: JPG / PNG &nbsp; | &nbsp; 总共 ≈ 10MB</small>
+
+                                </div>
+                        
+                            </div>
+                        
+                            <label>上传进度</label>
+                            <div class="progress" style="width: 100%; background-color: #ddd; border-radius: 8px; height: 10px; overflow: hidden; margin: 8px 0 20px; position: relative;">
+                                <div class="bar" id="uploadProgress" style="height: 100%; width: 0%; background-color: #3C91E6; transition: width 0.3s ease;"></div>
+                                <div id="progressPercentage" style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-weight: bold; color: #3C91E6; pointer-events: none; font-size: 12px;">0%</div>
+                            </div>
+                        
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
+                                <div>
+                                    <label>B-mode预览</label>
+                                    <img id="bmodePreview" src="{{ url_for('static', filename='image/preview1.png') }}" alt="B-mode Preview" style="max-width: 100%; border-radius: 10px; border: 1px solid #eee;" />
+                                </div>
+                        
+                                <div>
+                                    <label>CEUS预览</label>
+                                    <img id="ceusPreview" src="{{ url_for('static', filename='image/preview2.png') }}" alt="CEUS Preview" style="max-width: 100%; border-radius: 10px; border: 1px solid #eee;" />
+                                </div>
+                            </div>
+                            <small>📁 <em>注： 由于输入 CEUS 是视频序列数据，因此仅将第一帧作为预览图像</em></small>
+                            <!-- 下载报告按钮 -->
+                    <button id="downloadReportBtn" style="margin-top: 20px; padding: 10px 20px; background-color: #052042; color: white; border: none; border-radius: 8px; cursor: pointer;">
+                        下载诊断报告
+                    </button>
+                        
+
+
+                        
+                        </section>
+                        
+                        
+                        
+
+
+
+        
+                        <section class="card" style="flex: 1; display: flex; flex-direction: column; gap: 16px;">
+                            <button class="analyze-btn" style="width: 100%; padding: 10px; font-size: 16px; background: #941919; color: white; border: none; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; gap: 8px;" onclick="startAnalysis()">
+                                <i class='bx bxs-caret-right-circle bx-sm' style='color:#ffffff'></i> 开始分析
+                            </button>
+                            
+                            <label>分析进度</label>
+                            <div class="progress" style="width: 100%; background-color: #ddd; border-radius: 8px; height: 10px; overflow: hidden; margin: 8px 0 20px;">
+                                <div class="bar green" id="analysisProgress" style="height: 100%; width: 0%; background-color: #3CB371; transition: width 0.3s ease;"></div>
+                            </div>
+                            
+                            <div style="display: flex; justify-content: space-between; gap: 16px; background-color: #000; border-radius: 6px; padding: 20px;">
+                                <!-- B-mode Mask Output -->
+                                <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+                                    <label style="color:#ffffff; margin-bottom: 8px;">B-mode分割结果</label>
+                                    <div class="image-container" style="display: flex; justify-content: center; width: 100%;">
+                                        <img id="backgroundImage" src="{{ url_for('static', filename='image/result1.png') }}" alt="Background Image" style="max-width: 80%; border-radius: 10px; border: 1px solid #eee; margin-bottom: 16px;" />
+                                    </div>
+                                    <small style="color:#ffffff"><i class='bx bxs-key'></i> 调整掩码透明度</small>
+                                    <input type="range" id="opacityRange" min="0" max="100" value="0" style="width: 80%; margin-top: 8px;" oninput="updateOpacity()" />
+                                </div>
+                            
+                                <!-- CEUS Mask Output -->
+                                <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+                                    <label style="color:#ffffff; margin-bottom: 8px;">CEUS分割结果</label>
+                                    <div class="image-container" style="display: flex; justify-content: center; width: 100%;">
+                                        <img id="backgroundImageCEUS" src="{{ url_for('static', filename='image/result2.png') }}" alt="Background Image" style="max-width: 80%; border-radius: 10px; border: 1px solid #eee; margin-bottom: 16px;" />
+                                    </div>
+                                    <small style="color:#ffffff"><i class='bx bxs-key'></i> 调整掩码透明度</small>
+                                    <input type="range" id="opacityRangeCEUS" min="0" max="100" value="0" style="width: 80%; margin-top: 8px;" oninput="updateOpacityCEUS()" />
+                                </div>
+                            </div>
+                            
+                            <div style="display: flex; gap: 24px; background: #F9F9F9; padding: 20px; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 24px;">
+
+                                <!-- B-mode Download -->
+                                <div style="flex: 1;">
+                                <label style="font-weight: 600; font-size: 16px; display: block; margin-bottom: 10px;">下载B-mode掩码</label>
+                                <button class="download-btn" onclick="downloadBmodeResult()" style="width: 100%; padding: 10px; font-size: 16px; background: #3C91E6; color: white; border: none; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; gap: 8px;">
+                                    <i class='bx bx-download'></i> Download B-mode
+                                </button>
+                                
+                                </div>
+                            
+                                <!-- CEUS Download -->
+                                <div style="flex: 1;">
+                                <label style="font-weight: 600; font-size: 16px; display: block; margin-bottom: 10px;">下载CEUS掩码</label>
+                                <button class="download-btn" onclick="downloadCeusResult()" style="width: 100%; padding: 10px; font-size: 16px; background: #3C91E6; color: white; border: none; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; gap: 8px;">
+                                    <i class='bx bx-download'></i> Download CEUS
+                                </button>
+                                
+                                </div>
+                            
+                            </div>
+                        </section>
+                    </div>
+
+                    
+  
+
+                    <!-- Tabs Info -->
+                    <section class="card">
+                        <div class="tabs">
+                        <button class="tab active" onclick="showTab('diagnosis')">诊断结果</button>
+                        <button class="tab" onclick="showTab('bmode')">B-mode分析</button>
+                        <button class="tab" onclick="showTab('ceus')">CEUS分析</button>
+                        <button class="tab" onclick="showTab('tumor')">病灶分析</button>
+                        
+                        </div>
+
+                        <div class="tab-content" id="diagnosis">
+                        <p><strong>病灶属性:</strong><td><span class="status completed" style="background-color: #1133ae;color: #ddd;">待诊断</span></td></p>
+                        <p><strong>置信度:</strong>N/A</p>
+                        
+                        
+                        </div>
+                    
+                        <div class="tab-content" id="bmode"  style="display: none;">
+                        <p><strong>Resolution:</strong> 400 x 600</p>
+                        <p><strong>Format:</strong> PNG</p>
+                        <p><strong>Scan Depth:</strong> 5 cm</p>
+                        <p><strong>Focus Zones:</strong> 2</p>
+                        <p><strong>Gain:</strong> 45%</p>
+                        <p><strong>TI (Thermal Index):</strong> 0.3</p>
+                        <p><strong>MI (Mechanical Index):</strong> 0.8</p>
+                        <p><strong>Artifacts:</strong> None Detected</p>
+                        </div>
+                    
+                        <div class="tab-content" id="ceus" style="display: none;">
+                        <p><strong>Frames:</strong> 100</p>
+                        <p><strong>Duration:</strong> 12.3s</p>
+                        <p><strong>Peak Intensity:</strong> 83.1</p>
+                        <p><strong>Arrival Time:</strong> 2.8s</p>
+                        <p><strong>Time to Peak:</strong> 4.2s</p>
+                        <p><strong>Washout Start:</strong> 8.7s</p>
+                        <p><strong>Average Slope:</strong> 1.9</p>
+                        <p><strong>Contrast Agent:</strong> SonoVue</p>
+                        </div>
+                    
+                        <div class="tab-content" id="tumor" style="display: none;">
+                        <p><strong>Location:</strong> Upper outer quadrant</p>
+                        <p><strong>Size:</strong> 14.2 mm</p>
+                        <p><strong>Area:</strong> 147 mm²</p>
+                        <p><strong>Shape:</strong> Irregular</p>
+                        <p><strong>Margins:</strong> Spiculated</p>
+                        <p><strong>Vascularity:</strong> Moderate</p>
+                        <p><strong>Contrast Enhancement:</strong> Heterogeneous</p>
+                        <p><strong>Lesion Depth:</strong> 2.1 cm</p>
+                        </div>
+                    
+                        
+                    </section>
+                    <section>
+                    <p><strong>医生建议:</strong></p>
+                        <textarea id="doctorAdvice" rows="4" style="width: 100%; border-radius: 6px; padding: 8px; resize: vertical;"></textarea>
+                        <button id="saveAdviceBtn" style="margin-top: 8px;margin-bottom: 10px; background-color:  #052042; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">保存</button>
+                    </section>
+  
+        
+                <!-- Terminal -->
+                <div class="text-right">
+                    
+                    <button style="padding: 10px; font-size: 16px; background: #001f26; color: #00ff88; border: none; border-radius: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; gap: 8px;" onclick="toggleTerminal()"><i class='bx bxs-terminal' style='color:#00ff88' ></i>显示/隐藏终端</button>
+                </div>
+                <section class="card terminal" id="terminal" style="background: #001f26; color: #00ff88; border-radius: 12px; font-family: monospace; padding: 20px; font-size: 14px; max-height: 300px; overflow-y: auto; box-shadow: inset 0 0 8px #000;">
+                    <div id="terminalOutput" style="white-space: pre-wrap; text-align: left;">
+                > 运作过程将展现在此... ✓
+            
+                    </div>
+                    <div style="display: flex; align-items: center; margin-top: 10px;">
+                    <i class='bx bx-terminal' style="color: #00ff88; margin-right: 8px;"></i>
+                    <input id="terminalInput" type="text" placeholder="Type a command... (e.g., help)" onkeydown="handleTerminalInput(event)" style="flex-grow: 1; background: #002b36; color: #00ff88; border: none; padding: 8px; border-radius: 6px; font-family: monospace; font-size: 14px; outline: none;">
+                    </div>
+                </section>
+                </main>
+                </div>
+                <script src="{{ url_for('static', filename='scrip.js') }}"></script>
+            </div>
+            
+        </div>
+
+
+        <!-- Analytics -->
+            <div id="analytics" class="content-section" style="display: none;">
+                <div class="head-title">
+                    <div class="left">
+                        <h1>分析记录 Analytics</h1>
+                        <ul class="breadcrumb">
+                            <li><a href="#">Dashboard</a></li>
+                            <li><i class='bx bx-chevron-right'></i></li>
+                            <li><a class="active" href="#">Analytics</a></li>
+                        </ul>
+                    </div>
+                    <a href="#" class="btn-download">
+                        <i class='bx bxs-cloud-download bx-fade-down-hover'></i>
+                        <span class="text">Download Report</span>
+                    </a>
+                </div>
+                
+                <section class="card">
+                    <h3>AI Diagnostic Overview</h3>
+                    <div class="grid">
+                        <div class="overview-card">
+                            <h4>Total Cases</h4>
+                            <p>150</p>
+                        </div>
+                        <div class="overview-card">
+                            <h4>AI Diagnoses</h4>
+                            <p>120</p>
+                        </div>
+                        <div class="overview-card">
+                            <h4>Benign Diagnoses</h4>
+                            <p>85</p>
+                        </div>
+                        <div class="overview-card">
+                            <h4>Malignant Diagnoses</h4>
+                            <p>35</p>
+                        </div>
+                    </div>
+                </section>
+
+                <div style="display: flex; gap: 20px; background: #F9F9F9; padding: 20px; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 24px; flex-wrap: wrap; justify-content: space-between;">
+                    <div style="flex: 1; min-width: 140px; max-width: 240px;">
+                        <h3>Diagnostic Distribution</h3>
+                        <canvas id="diagnosticPieChart"></canvas>
+                    </div>
+                    <div style="flex: 1; min-width: 240px; max-width: 350px;">
+                        <h3>Average Peak Intensity over Time</h3>
+                        <canvas id="intensityBarChart"></canvas>
+                    </div>
+                    <div style="flex: 1; min-width: 240px; max-width: 350px;">
+                        <h3>Test Loss Trend</h3>
+                        <canvas id="uploadTrendLineChart"></canvas>
+                    </div>
+                    <div style="flex: 1; min-width: 240px; max-width: 350px;">
+                        <h3>Tumor Size Distribution</h3>
+                        <canvas id="tumorSizeBarChart"></canvas>
+                    </div>
+                </div>
+
+                
+                
+
+                
+          
+            <!-- Summary Stats -->
+            <div class="summary-stats">
+              <div class="stat-card">
+                
+                <div>
+                  <h4><i class='bx bx-file'></i>Total Cases</h4>
+                  <p>324</p>
+                </div>
+              </div>
+              <div class="stat-card">
+                
+                <div>
+                  <h4><i class='bx bxs-bot'></i>AI Diagnosed</h4>
+                  <p>289</p>
+                </div>
+              </div>
+              <div class="stat-card">
+                
+                <div>
+                  <h4><i class='bx bxs-virus'></i>Malignant Rate</h4>
+                  <p>36%</p>
+                </div>
+              </div>
+              <div class="stat-card">
+                
+                <div>
+                  
+                  <h4><i class='bx bx-time-five'></i>Avg Inference Time</h4>
+                  <p>4.8s</p>
+                </div>
+              </div>
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix"></script>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script src="{{ url_for('static', filename='analysic.js') }}"></script>
+        </div>
+
+        <div id="case-history" class="content-section" style="display: none;">
+            <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+            <div class="head-title">
+                <div class="left">
+                    <h1>历史病例 Case History</h1>
+                    <ul class="breadcrumb">
+                        <li><a href="#">Dashboard</a></li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        <li><a class="active" href="#">Recent Cases</a></li>
+                    </ul>
+                </div>
+                
+            </div>
+            <div class="table-data">
+            <div class="todo">
+                <div class="head">
+                    <h3>List</h3>
+                    <i class='bx bx-plus icon'></i>
+                    <i class='bx bx-filter' ></i>
+
+                </div>
+                <ul class="todo-list">
+                    <li class="completed">
+                        <p>Micheal John</p>
+                        <i class='bx bx-dots-vertical-rounded' ></i>
+                    </li>
+                    <li class="completed">
+                        <p>Ryan Doe</p>
+                        <i class='bx bx-dots-vertical-rounded' ></i>
+                    </li>
+                    <li class="not-completed">
+                        <p>Tarry White</p>
+                        <i class='bx bx-dots-vertical-rounded' ></i>
+                    </li>
+                    <li class="completed">
+                        <p>Selma</p>
+                        <i class='bx bx-dots-vertical-rounded' ></i>
+                    </li>
+                    <li class="not-completed">
+                        <p>Andreas Doe</p>
+                        <i class='bx bx-dots-vertical-rounded' ></i>
+                    </li>
+                </ul>
+            </div>
+        </div>
+           
+        </div>
+            
+
+        
+       
+              
+
+
+			
+		</main>
+		<!-- MAIN -->
+	</section>
+	<!-- CONTENT -->
+	
+    <script src="{{ url_for('static', filename='home.js') }}"></script>
+</body>
+</html>
