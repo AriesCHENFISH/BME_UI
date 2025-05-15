@@ -11,7 +11,7 @@ def start():
     return render_template('start.html')
 
 
-
+# 这是基于linux的版本
 
 from flask import Flask, request, jsonify
 from Bmode_Dualtask_For_UI.Core.refer_bmode import refer_bmode
