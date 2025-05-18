@@ -136,6 +136,39 @@ def analyze_all():
             current_app.logger.warning(f"清理临时目录失败: {cleanup_error}")
 
 
+
+from flask import request, jsonify
+from models import db, AnalysisResult
+from datetime import datetime
+
+@app.route('/save_result', methods=['POST'])
+def save_result():
+    data = request.get_json()
+    new_result = AnalysisResult(
+        patient_id=data.get("patient_id"),
+        result=data.get("result"),
+        report_path=data.get("report_path"),
+        image_path=data.get("image_path"),
+        analysis_time=datetime.utcnow()
+    )
+    db.session.add(new_result)
+    db.session.commit()
+    return jsonify({"status": "success"})
+
+
+@app.route('/get_history', methods=['POST'])
+def get_history():
+    patient_id = request.json.get("patient_id")
+    results = AnalysisResult.query.filter_by(patient_id=patient_id).order_by(AnalysisResult.analysis_time.desc()).all()
+    data = [{
+        "analysis_time": r.analysis_time.strftime("%Y-%m-%d %H:%M:%S"),
+        "result": r.result,
+        "report_path": r.report_path,
+        "image_path": r.image_path
+    } for r in results]
+    return jsonify(data)
+
+
 # @app.route('/analyze_all', methods=['POST'])
 # def analyze_all():
 #     if 'bmode' not in request.files or 'ceus[]' not in request.files:

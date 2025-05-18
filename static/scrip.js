@@ -25,7 +25,7 @@ let ceusFileList = [];
 //       });
 //   }
 // };
-
+const patientID_total = sessionStorage.getItem("patientID");
 window.onload = function () {
   const patientID = sessionStorage.getItem("patientID");
   if (patientID) {
@@ -223,6 +223,25 @@ function handleCeusUpload(event) {
   };
   reader.readAsDataURL(files[0]);
 }
+function saveAnalysisResult(patientID, resultText, reportPath, imagePath) {
+  fetch('/save_result', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      patient_id: patientID,
+      result: resultText,
+      report_path: reportPath,
+      image_path: imagePath
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.status === "success") {
+      alert("分析结果已保存！");
+      loadHistory(patientID);  // 保存后立即刷新历史
+    }
+  });
+}
 
 
 function startAnalysis() {
@@ -317,6 +336,8 @@ function startAnalysis() {
       `;
 
       alert("分析完成！");
+      saveAnalysisResult(patientID_total, result, "path1", "path2");
+
     })
     .catch(err => {
         console.error(err);
@@ -324,6 +345,36 @@ function startAnalysis() {
         analysisProgressBar.style.width = "0%";
     });
 }
+
+function loadHistory(patientID) {
+  fetch('/get_history', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ patient_id: patientID })
+  })
+  .then(res => res.json())
+  .then(results => {
+    const tableBody = document.getElementById("historyBody");
+    tableBody.innerHTML = "";
+    results.forEach(record => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${record.analysis_time}</td>
+        <td>${record.result}</td>
+        <td><a href="/static/${record.report_path}" target="_blank">查看报告</a></td>
+      `;
+      tableBody.appendChild(row);
+    });
+  });
+}
+document.addEventListener("DOMContentLoaded", function () {
+  const patientID = sessionStorage.getItem("patientID");
+  if (patientID) {
+    loadHistory(patientID);
+    alert("加载历史！");
+  }
+});
+
 
 
 
