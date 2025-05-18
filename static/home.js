@@ -150,7 +150,7 @@ window.addEventListener('click', function (e) {
       },
       body: JSON.stringify({
         name: sessionStorage.getItem("patientName"),
-        birthday: sessionStorage.getItem("birthday"),
+        age: sessionStorage.getItem("age"),
         patientID: sessionStorage.getItem("patientID"),
         patientCard: sessionStorage.getItem("patientCard"),
         result: document.querySelector("#diagnosis .status").textContent.trim(),

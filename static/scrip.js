@@ -82,7 +82,7 @@ window.addEventListener("load", () => {
     document.getElementById("patientID").textContent = sessionStorage.getItem("patientID");
     document.getElementById("patientCard").textContent = sessionStorage.getItem("idCard");
     document.getElementById("patientGender").textContent = sessionStorage.getItem("gender");
-    document.getElementById("patientBirthday").textContent = sessionStorage.getItem("birthday");
+    document.getElementById("patientAge").textContent = sessionStorage.getItem("age");
     document.getElementById("patientPhone").textContent = sessionStorage.getItem("phone");
     document.getElementById("patientEmail").textContent = sessionStorage.getItem("email");
   }
