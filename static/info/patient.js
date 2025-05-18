@@ -33,9 +33,6 @@ window.patientData = [
       gender: "女",
       birthday: "30",
       phone: "13800138003",
-
-
-               
       email: "zhaolei@example.com"
     }
   ];

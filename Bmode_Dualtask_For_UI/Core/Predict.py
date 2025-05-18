@@ -141,7 +141,9 @@ def load_model_for_inference(model_path, device, model_class=None):
     else:
         model = model_class().to(device)
 
-    model.load_state_dict(torch.load(model_path, map_location=device))
+    state_dict = torch.load(model_path, map_location=device)
+    model.load_state_dict(state_dict)
+    # model.load_state_dict(torch.load(model_path, map_location=device))
     model.eval()
     return model
 

@@ -7,13 +7,15 @@ from model import CNNRNNUNetModel  # 确保你的模型类在 model.py 中
 import torchvision.transforms.functional as TF
 
 # ------------------ 路径设置 ------------------
-model_path = 'D:/BME_ui/ceus_dual_task/model_weights/best_model_fold2.pth'
-image_folder = 'D:/BME_ui/for_test/2025041301/60frames'
+current_dir = os.path.dirname(os.path.abspath(__file__))
+model_path = os.path.join(current_dir, "..", "..", "..", "weights", "best_model_fold_ceus.pth")
+model_path = os.path.normpath(model_path)  # 规范化路径，避免 ../ 出现问题
+image_folder = '/home/www/BME_UI/for_test/2025041301/60frames'
 save_seg_dir = 'segmentation_result'
 os.makedirs(save_seg_dir, exist_ok=True)
 
 # ------------------ 模型加载 ------------------
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+device = torch.device('cpu')
 model = CNNRNNUNetModel()
 model.load_state_dict(torch.load(model_path, map_location=device))
 model.to(device)

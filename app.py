@@ -1,4 +1,7 @@
 from flask import Flask, render_template
+import uuid
+import traceback
+from flask import current_app
 
 app = Flask(__name__)
 
@@ -11,7 +14,10 @@ def start():
     return render_template('start.html')
 
 
-
+# @app.before_first_request
+# def cleanup_old_temp_ceus():
+#     shutil.rmtree('temp_ceus', ignore_errors=True)
+#     os.makedirs('temp_ceus', exist_ok=True)
 
 from flask import Flask, request, jsonify
 from Bmode_Dualtask_For_UI.Core.refer_bmode import refer_bmode
@@ -82,32 +88,84 @@ def analyze_bmode():
     
     return jsonify(result)
 
+import uuid
+import traceback
+from flask import current_app
+
 @app.route('/analyze_all', methods=['POST'])
 def analyze_all():
-    if 'bmode' not in request.files or 'ceus[]' not in request.files:
-        return jsonify({'error': 'Missing files'}), 400
+    try:
+        if 'bmode' not in request.files or 'ceus[]' not in request.files:
+            return jsonify({'error': 'Missing files'}), 400
 
-    # 处理 bmode
-    bmode_file = request.files['bmode']
-    bmode_result = refer_bmode(bmode_file)
+        # 处理 bmode 图像
+        bmode_file = request.files['bmode']
+        bmode_result = refer_bmode(bmode_file)
 
-    # 处理 ceus 序列（是多个文件）
-    ceus_files = request.files.getlist('ceus[]')
-    temp_dir = os.path.join('temp_ceus')
-    os.makedirs(temp_dir, exist_ok=True)
-    for i, file in enumerate(ceus_files):
-        filename = secure_filename(f"{i:04d}.png")
-        file.save(os.path.join(temp_dir, filename))
+        # 生成唯一临时目录路径
+        temp_id = str(uuid.uuid4())
+        temp_dir = os.path.join('temp_ceus', temp_id)
+        os.makedirs(temp_dir, exist_ok=True)
 
-    ceus_result = refer_ceus(temp_dir)
+        # 保存 ceus 图像序列
+        ceus_files = request.files.getlist('ceus[]')
+        for i, file in enumerate(ceus_files):
+            filename = secure_filename(f"{i:04d}.png")
+            file.save(os.path.join(temp_dir, filename))
 
-    # 清理
-    shutil.rmtree(temp_dir, ignore_errors=True)
+        # 分析
+        ceus_result = refer_ceus(temp_dir)
 
-    return jsonify({
-        "bmode": bmode_result,
-        "ceus": ceus_result
-    })
+        return jsonify({
+            "bmode": bmode_result,
+            "ceus": ceus_result
+        })
+    
+    except Exception as e:
+        current_app.logger.error(f"分析过程中出现异常: {e}")
+        traceback.print_exc()
+        return jsonify({"error": "分析失败", "detail": str(e)}), 500
+
+    finally:
+        # 无论成功或失败都清理临时目录
+        try:
+            if 'temp_dir' in locals() and os.path.exists(temp_dir):
+                shutil.rmtree(temp_dir, ignore_errors=True)
+        except Exception as cleanup_error:
+            current_app.logger.warning(f"清理临时目录失败: {cleanup_error}")
+
+
+# @app.route('/analyze_all', methods=['POST'])
+# def analyze_all():
+#     if 'bmode' not in request.files or 'ceus[]' not in request.files:
+#         return jsonify({'error': 'Missing files'}), 400
+
+#     # 处理 bmode
+#     bmode_file = request.files['bmode']
+#     bmode_result = refer_bmode(bmode_file)
+
+#     # 处理 ceus 序列（是多个文件）
+#     ceus_files = request.files.getlist('ceus[]')
+#     temp_dir = os.path.join('temp_ceus')
+#     os.makedirs(temp_dir, exist_ok=True)
+#     for i, file in enumerate(ceus_files):
+#         filename = secure_filename(f"{i:04d}.png")
+#         file.save(os.path.join(temp_dir, filename))
+
+#     ceus_result = refer_ceus(temp_dir)
+
+#     # 清理
+#     shutil.rmtree(temp_dir, ignore_errors=True)
+
+#     return jsonify({
+#         "bmode": bmode_result,
+#         "ceus": ceus_result
+#     })
+
+
+
+
+
 # @app.route('/analyze_all', methods=['POST'])
 # def analyze_all():
 #     if 'bmode' not in request.files or 'ceus[]' not in request.files:
@@ -228,8 +286,14 @@ def generate_report():
     draw = ImageDraw.Draw(report)
 
     # 2. 加载字体（你也可以用系统默认）
-    font_path = "C:/Windows/Fonts/simhei.ttf"
-    font = ImageFont.truetype(font_path, 28)
+    font_path = "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc"
+
+    if os.path.exists(font_path):
+        font = ImageFont.truetype(font_path, 28)
+        print("成功加载 Noto Sans CJK 字体")
+    else:
+        print("字体文件未找到，使用默认字体")
+        font = ImageFont.load_default()
 
     # 3. 写入信息
     draw.text((120, 390), name, font=font, fill="black")
@@ -267,4 +331,5 @@ def generate_report():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=8001, debug=True)
+    application = app

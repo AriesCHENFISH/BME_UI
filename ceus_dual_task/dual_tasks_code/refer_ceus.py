@@ -9,17 +9,33 @@ from PIL import Image
 import numpy as np
 from model import CNNRNNUNetModel
 from datetime import datetime
+import os, psutil
+
+def print_memory_usage(note=""):
+    process = psutil.Process(os.getpid())
+    mem = process.memory_info().rss / 1024 / 1024  # 单位 MB
+    print(f"[内存使用] {note} 当前进程使用内存: {mem:.2f} MB")
+
 
 def refer_ceus(folder_path):
+    import torch
+    torch.set_num_threads(1)
     # 模型 & 设备
     current_dir = os.path.dirname(os.path.abspath(__file__))
     model_path = os.path.join(current_dir, "..", "..", "..", "weights", "best_model_fold_ceus.pth")
     model_path = os.path.normpath(model_path)  # 规范化路径，避免 ../ 出现问题
+    # device = torch.device('cpu')
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    print_memory_usage("加载模型前")
     model = CNNRNNUNetModel()
-    model.load_state_dict(torch.load(model_path, map_location=device))
+    state_dict = torch.load(model_path, map_location=device)
+    model.load_state_dict(state_dict)
+
+    # model.load_state_dict(torch.load(model_path, map_location=device))
     model.to(device)
     model.eval()
+    print_memory_usage("加载模型后")
+   
     
 
     # 创建输出目录
@@ -67,10 +83,8 @@ def refer_ceus(folder_path):
         cls_output, seg_output = model(sequence)
         cls_pred = (torch.sigmoid(cls_output) > 0.5).item()
         classification_result = 'Positive' if cls_pred == 1 else 'Negative'
-
         seg_output = seg_output.squeeze(0).cpu().numpy()
         seg_binary = (seg_output > 0.3).astype(np.uint8) * 255
-
         mask_path = os.path.join(output_dir, f'ceus_mask_{timestamp}.png')
         Image.fromarray(seg_binary[0]).save(mask_path)
         print("✅ceus分割结果保存成功！")

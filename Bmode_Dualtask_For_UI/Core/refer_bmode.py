@@ -16,15 +16,20 @@ def refer_bmode(image_file):
     传入图像文件，返回分类结果、mask图像路径
     """
     # 设置设备
+    # device = torch.device('cpu')
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     
     # 创建输出目录
     output_dir = os.path.join('static', 'output')
     os.makedirs(output_dir, exist_ok=True)
+    print("创建目录成功")
 
     current_dir = os.path.dirname(os.path.abspath(__file__))
+    print("创建目录成功")
     model_path = os.path.join(current_dir, "..", "..", "..", "weights", "best_model_fold_bmode.pth")
+    print("创建目录成功")
     model_path = os.path.normpath(model_path)  # 规范化路径，避免 ../ 出现问题
+    print("创建目录成功")
 
     model = load_model_for_inference(model_path, device)
     print("🧠模型加载成功！")
