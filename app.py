@@ -2,8 +2,13 @@ from flask import Flask, render_template
 import uuid
 import traceback
 from flask import current_app
+from flask_sqlalchemy import SQLAlchemy
+from models import db  # 从 models 中引入 db 实例和模型类
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://flaskuser:123456@47.122.30.152/breast_db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db.init_app(app)
 
 @app.route('/home')
 def home():
@@ -161,6 +166,34 @@ def analyze_all():
 #         "bmode": bmode_result,
 #         "ceus": ceus_result
 #     })
+
+
+from models import db, PatientInfo  # 确保导入你的模型
+
+@app.route('/api/patient_info', methods=['POST'])
+def get_patient_info():
+    data = request.json
+    patient_id = data.get('patient_id')
+    id_card = data.get('id_card')
+
+    patient = PatientInfo.query.filter_by(patient_id=patient_id, id_card=id_card).first()
+
+    if patient:
+        return jsonify({
+            "success": True,
+            "data": {
+                "id": patient.patient_id,
+                "name": patient.name,
+                "idCard": patient.id_card,
+                "gender": patient.gender,
+                "age": patient.age,
+                "phone": patient.phone,
+                "email": patient.email
+            }
+        })
+    else:
+        return jsonify({"success": False, "message": "信息不存在/身份证号错误"}), 404
+
 
 
 
@@ -331,5 +364,9 @@ def generate_report():
 
 
 if __name__ == '__main__':
+    
+    
+    with app.app_context():
+        db.create_all()
     app.run(host='0.0.0.0', port=8001, debug=True)
     application = app

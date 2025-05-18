@@ -1,6 +1,6 @@
 window.patientData = [
     {
-      id: "2025041301",
+      id: "1",
       name: "李丽",
       idCard: "341129199001010101",
       gender: "女",
@@ -9,7 +9,7 @@ window.patientData = [
       email: "lihua@example.com"
     },
     {
-      id: "2025041302",
+      id: "2",
       name: "张敏",
       idCard: "341172198801013333",
       gender: "女",
@@ -18,7 +18,7 @@ window.patientData = [
       email: "zhangmin@example.com"
     },
     {
-      id: "2025041303",
+      id: "3",
       name: "王美",
       idCard: "582231197501014444",
       gender: "女",
@@ -27,7 +27,7 @@ window.patientData = [
       email: "wangqiang@example.com"
     },
     {
-      id: "2025041304",
+      id: "4",
       name: "赵蕾",
       idCard: "314426199501018888",
       gender: "女",
