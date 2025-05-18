@@ -19,10 +19,6 @@ def start():
     return render_template('start.html')
 
 
-# @app.before_first_request
-# def cleanup_old_temp_ceus():
-#     shutil.rmtree('temp_ceus', ignore_errors=True)
-#     os.makedirs('temp_ceus', exist_ok=True)
 
 from flask import Flask, request, jsonify
 from Bmode_Dualtask_For_UI.Core.refer_bmode import refer_bmode
