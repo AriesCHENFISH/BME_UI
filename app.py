@@ -12,7 +12,7 @@ db.init_app(app)
 
 @app.route('/home')
 def home():
-    return render_template('home.html')  # 确保这个文件在 templates 文件夹中
+    return render_template('home.html')  
 
 @app.route('/')
 def start():
