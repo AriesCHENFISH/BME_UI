@@ -23,4 +23,5 @@ class AnalysisResult(db.Model):
     analysis_time = db.Column(db.DateTime, server_default=db.func.now())
     result = db.Column(db.Text)
     report_path = db.Column(db.String(255))
-    image_path = db.Column(db.String(255))
+    name = db.Column(db.String(255))
+    # image_path = db.Column(db.String(255))

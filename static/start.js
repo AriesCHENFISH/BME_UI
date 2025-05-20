@@ -39,11 +39,13 @@ document.addEventListener("DOMContentLoaded", () => {
       // 写入 sessionStorage
       sessionStorage.setItem("patientID", match.id);
       sessionStorage.setItem("patientName", match.name);
-      sessionStorage.setItem("patientCard", match.idCard);
+      sessionStorage.setItem("patientCard", match.idcard);
       sessionStorage.setItem("gender", match.gender);
       sessionStorage.setItem("age", match.age);
       sessionStorage.setItem("phone", match.phone);
       sessionStorage.setItem("email", match.email);
+      // const age = match.idcard;
+      // alert("患者年龄是: " + age + "岁");
 
       setTimeout(() => {
         window.location.href = "/home";

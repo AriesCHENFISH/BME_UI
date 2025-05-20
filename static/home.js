@@ -167,7 +167,7 @@ window.addEventListener('click', function (e) {
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-        link.download = "diagnosis_report.jpg";
+        link.download = "diagnosis_report.pdf";
         link.click();
         URL.revokeObjectURL(url);
       })

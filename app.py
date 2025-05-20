@@ -146,10 +146,11 @@ def save_result():
     data = request.get_json()
     new_result = AnalysisResult(
         patient_id=data.get("patient_id"),
+        name=data.get("patient_name"),
         result=data.get("result"),
         report_path=data.get("report_path"),
-        image_path=data.get("image_path"),
-        analysis_time=datetime.utcnow()
+        # image_path=data.get("image_path"),
+        analysis_time=data.get("time")
     )
     db.session.add(new_result)
     db.session.commit()
@@ -159,12 +160,14 @@ def save_result():
 @app.route('/get_history', methods=['POST'])
 def get_history():
     patient_id = request.json.get("patient_id")
-    results = AnalysisResult.query.filter_by(patient_id=patient_id).order_by(AnalysisResult.analysis_time.desc()).all()
+    results = AnalysisResult.query.filter_by().order_by(AnalysisResult.analysis_time.desc()).all()
     data = [{
         "analysis_time": r.analysis_time.strftime("%Y-%m-%d %H:%M:%S"),
         "result": r.result,
+        "name":r.name,
         "report_path": r.report_path,
-        "image_path": r.image_path
+        "patient_id":r.patient_id
+        # "image_path": r.image_path
     } for r in results]
     return jsonify(data)
 
@@ -213,7 +216,7 @@ def get_patient_info():
             "data": {
                 "id": patient.patient_id,
                 "name": patient.name,
-                "idCard": patient.id_card,
+                "idcard": patient.id_card,
                 "gender": patient.gender,
                 "age": patient.age,
                 "phone": patient.phone,
@@ -332,7 +335,7 @@ from io import BytesIO
 def generate_report():
     data = request.json
     name = data.get('name', '未知')
-    birthday = data.get('birthday', '未知')
+    age = data.get('age', '未知')
     id = data.get("patientCard",'未知')
     time = data.get("time", '未知')
     result = data.get('result', '未知')
@@ -341,6 +344,7 @@ def generate_report():
     bmode_pre_url = data.get('bmodePre')
     ceus_pre_url = data.get('ceusPre')
     advice = data.get("doctorAdvice", "无")
+    patientid = data.get("patientID",'未知')
 
     # 1. 加载模板
     template_path = "./static/image/report.jpg"
@@ -359,7 +363,7 @@ def generate_report():
 
     # 3. 写入信息
     draw.text((120, 390), name, font=font, fill="black")
-    draw.text((390, 390), birthday, font=font, fill="black")
+    draw.text((390, 390), age, font=font, fill="black")
     draw.text((640, 390), "女", font=font, fill="black")
     draw.text((150, 430), id, font=font, fill="black")
     draw.text((160, 480), time, font=font, fill="black")
@@ -382,11 +386,27 @@ def generate_report():
     report.paste(ceus_pre_img, (70,760))
     report.paste(bmode_pre_img,(70, 1200))
 
-    # 6. 返回图像
+     # 将报告写入内存 & 本地保存
     output = BytesIO()
-    report.save(output, format="JPEG")
+    report.save(output, format="PDF")
     output.seek(0)
-    return send_file(output, as_attachment=True, download_name="diagnosis_report.jpg", mimetype="image/jpeg")
+
+    # ✅ 同时保存一份到 static/report/{patientID}.pdf
+    report_dir = os.path.join("static", "report")
+    os.makedirs(report_dir, exist_ok=True)
+    report_path = os.path.join(report_dir, f"{patientid}.pdf")
+    with open(report_path, "wb") as f:
+        f.write(output.getvalue())  # 写入和返回的内容一致
+
+    # 发送给用户下载
+    output.seek(0)
+    return send_file(
+        output,
+        as_attachment=True,
+        download_name="diagnosis_report.pdf",
+        mimetype="application/pdf"
+    )
+
 
 
 

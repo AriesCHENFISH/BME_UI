@@ -435,8 +435,7 @@
                         <div class="left">
                             
                             <h1>
-                               
-                                工作台 Workbench
+                                工作台
                             </h1>
                             <ul class="breadcrumb">
                                 <li>
@@ -761,7 +760,7 @@
             <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
             <div class="head-title">
                 <div class="left">
-                    <h1>历史病例 Case History</h1>
+                    <h1>历史记录</h1>
                     <ul class="breadcrumb">
                         <li><a href="#">Dashboard</a></li>
                         <li><i class='bx bx-chevron-right'></i></li>
@@ -773,49 +772,15 @@
             <div class="table-data">
             <div class="todo">
                 <div class="head">
-                    <h3>List</h3>
-                    <i class='bx bx-plus icon'></i>
-                    <i class='bx bx-filter' ></i>
-
+                <h3>病例信息与结果报告</h3>
+                <i class='bx bx-refresh icon'></i>
                 </div>
-                <ul class="todo-list">
-                    <li class="completed">
-                        <p>Micheal John</p>
-                        <i class='bx bx-dots-vertical-rounded' ></i>
-                    </li>
-                    <li class="completed">
-                        <p>Ryan Doe</p>
-                        <i class='bx bx-dots-vertical-rounded' ></i>
-                    </li>
-                    <li class="not-completed">
-                        <p>Tarry White</p>
-                        <i class='bx bx-dots-vertical-rounded' ></i>
-                    </li>
-                    <li class="completed">
-                        <p>Selma</p>
-                        <i class='bx bx-dots-vertical-rounded' ></i>
-                    </li>
-                    <li class="not-completed">
-                        <p>Andreas Doe</p>
-                        <i class='bx bx-dots-vertical-rounded' ></i>
-                    </li>
+                <ul class="todo-list" id="historyList">
+                <!-- 动态插入记录 -->
                 </ul>
             </div>
-        </div>
+            </div>
 
-        <h3 class="mt-4">历史记录</h3>
-            <table id="historyTable" class="table table-bordered">
-            <thead>
-                <tr>
-                <th>分析时间</th>
-                <th>分析结果</th>
-                <th>报告预览</th>
-                </tr>
-            </thead>
-            <tbody id="historyBody">
-                <!-- 动态插入 -->
-            </tbody>
-            </table>
            
         </div>
             

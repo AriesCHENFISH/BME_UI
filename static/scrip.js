@@ -26,6 +26,7 @@ let ceusFileList = [];
 //   }
 // };
 const patientID_total = sessionStorage.getItem("patientID");
+const patientName_total = sessionStorage.getItem("patientName");
 window.onload = function () {
   const patientID = sessionStorage.getItem("patientID");
   if (patientID) {
@@ -80,7 +81,7 @@ window.addEventListener("load", () => {
   if (name) {
     document.getElementById("patientName").textContent = name;
     document.getElementById("patientID").textContent = sessionStorage.getItem("patientID");
-    document.getElementById("patientCard").textContent = sessionStorage.getItem("idCard");
+    document.getElementById("patientCard").textContent = sessionStorage.getItem("patientCard");
     document.getElementById("patientGender").textContent = sessionStorage.getItem("gender");
     document.getElementById("patientAge").textContent = sessionStorage.getItem("age");
     document.getElementById("patientPhone").textContent = sessionStorage.getItem("phone");
@@ -223,21 +224,23 @@ function handleCeusUpload(event) {
   };
   reader.readAsDataURL(files[0]);
 }
-function saveAnalysisResult(patientID, resultText, reportPath, imagePath) {
+function saveAnalysisResult(patientName, patientID, resultText, reportPath, imagePath) {
   fetch('/save_result', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
+      patient_name: patientName,
       patient_id: patientID,
       result: resultText,
       report_path: reportPath,
-      image_path: imagePath
+      image_path: imagePath,
+      time: new Date().toLocaleString('zh-CN', { hour12: false })
     })
   })
   .then(res => res.json())
   .then(data => {
     if (data.status === "success") {
-      alert("分析结果已保存！");
+      // alert("分析结果已保存！");
       loadHistory(patientID);  // 保存后立即刷新历史
     }
   });
@@ -336,7 +339,8 @@ function startAnalysis() {
       `;
 
       alert("分析完成！");
-      saveAnalysisResult(patientID_total, result, "path1", "path2");
+      saveAnalysisResult(patientName_total, patientID_total, result, patientID_total+".pdf", "path2");
+      
 
     })
     .catch(err => {
@@ -354,24 +358,36 @@ function loadHistory(patientID) {
   })
   .then(res => res.json())
   .then(results => {
-    const tableBody = document.getElementById("historyBody");
-    tableBody.innerHTML = "";
+    const historyList = document.getElementById("historyList");
+    historyList.innerHTML = "";
+
     results.forEach(record => {
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td>${record.analysis_time}</td>
-        <td>${record.result}</td>
-        <td><a href="/static/${record.report_path}" target="_blank">查看报告</a></td>
+      const listItem = document.createElement("li");
+      listItem.classList.add("completed"); // 或根据状态选择 completed / not-completed
+
+      listItem.innerHTML = `
+        <div>
+          <p><strong>患者姓名:</strong> ${record.name}</p>
+          <p><strong>患者编号:</strong> ${record.patient_id}</p>
+          <p><strong>分析时间:</strong> ${record.analysis_time}</p>
+          <p><strong>分析结果:</strong> ${record.result}</p>
+        </div>
+        <a href="/static/report/${record.report_path}" target="_blank" title="查看报告">
+          <i class='bx bx-file icon'></i>
+        </a>
       `;
-      tableBody.appendChild(row);
+      historyList.appendChild(listItem);
     });
   });
 }
+
+
+
 document.addEventListener("DOMContentLoaded", function () {
   const patientID = sessionStorage.getItem("patientID");
   if (patientID) {
     loadHistory(patientID);
-    alert("加载历史！");
+    // alert("加载历史！");
   }
 });
 
