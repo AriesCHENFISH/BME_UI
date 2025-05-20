@@ -1,1 +1,0 @@
-rise: 0-29, platform: 30-49, fall: 50-59
