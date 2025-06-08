@@ -1,5 +1,91 @@
 let currentBmodeFile = null;  // 用于记录当前上传的图像
 let ceusFileList = [];
+// 自动加载最近5位患者
+function loadRecentPatients() {
+  fetch("/api/recent_patients")
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById("recentPatients");
+      container.innerHTML = "";
+
+      data.forEach(p => {
+        const div = document.createElement("div");
+        div.style.display = "flex";
+        div.style.justifyContent = "space-between";
+        div.style.alignItems = "center";
+        div.style.border = "1px solid #ccc";
+        div.style.borderRadius = "8px";
+        div.style.padding = "10px 16px";
+
+        div.innerHTML = `
+          <div><strong>${p.name}</strong>（编号：${p.patient_id}）</div>
+          <button onclick="usePatient('${p.patient_id}', '${p.id_card}')" style="padding: 6px 12px; background: #1133ae; color: white; border: none; border-radius: 4px; cursor: pointer;">就诊</button>
+        `;
+
+        container.appendChild(div);
+      });
+    });
+}
+
+// 页面加载后调用
+document.addEventListener("DOMContentLoaded", loadRecentPatients);
+
+// 点击“就诊”按钮逻辑
+function usePatient(patientID, idCard) {
+
+   // 跳转到工作台（workbench）
+  document.querySelector('[data-target="workbenchs"]').click();
+  // 设置输入框
+  document.getElementById("patientInputID").value = patientID;
+  document.getElementById("patientInputCard").value = idCard;
+
+ 
+}
+
+function submitPatient() {
+  const inputs = document.querySelectorAll("#patient-info input, #patient-info select");
+  const name = inputs[0].value.trim();
+  const gender = inputs[1].value;
+  const birthdate = inputs[2].value;
+  const patientID = inputs[3].value.trim();
+  const idCard = inputs[4].value.trim();
+  const phone = inputs[5].value.trim();
+  const email = inputs[6].value.trim();
+  const file = document.getElementById("fileUpload").files[0];
+
+  if (!name || !gender || !birthdate || !patientID || !idCard || !phone || !file) {
+    alert("请填写所有必填项并上传图像！");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("name", name);
+  formData.append("gender", gender);
+  formData.append("birthdate", birthdate);
+  formData.append("patient_id", patientID);
+  formData.append("id_card", idCard);
+  formData.append("phone", phone);
+  formData.append("email", email);
+  formData.append("bmode", file);
+
+  fetch("/api/add_patient", {
+    method: "POST",
+    body: formData
+  })
+  .then(res => res.json())
+  .then(result => {
+    if (result.status === "success") {
+      alert("✅ 患者信息添加成功！");
+    } else {
+      alert("❌ 添加失败：" + result.message);
+    }
+  })
+  .catch(err => {
+    console.error(err);
+    alert("❌ 提交出错！");
+  });
+}
+
 function loadPatientData() {
   const patientID = document.getElementById("patientInputID").value.trim();
   const idCard = document.getElementById("patientInputCard").value.trim();

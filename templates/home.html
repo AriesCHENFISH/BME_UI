@@ -216,9 +216,9 @@
                             cursor: pointer;
                           ">
                             <option disabled selected hidden style="color:rgb(99, 101, 103)">选择性别</option>
-                            <option value="female">女</option>
-                            <option value="male">男</option>
-                            <option value="other">其它</option>
+                            <option value="女">女</option>
+                            <option value="男">男</option>
+                            <option value="其它">其它</option>
                           </select>
                         </div>
                         <small style="color:rgb(99, 101, 103);">必填项</small>
@@ -232,6 +232,14 @@
                         <input type="date" required />
                       </div>
                       <small style="color:rgb(99, 101, 103);">格式：YYYY-MM-DD</small>
+                    </div>
+
+                    <div>
+                      <label style="color:rgb(0, 140, 255);">编号</label>
+                      <div class="form-input">
+                        <input type="text" placeholder="例如：14XXX" />
+                      </div>
+                      <small style="color:rgb(99, 101, 103);">请填写5位编号</small>
                     </div>
                   
                     <!-- ID Number -->
@@ -290,17 +298,22 @@
                   
                     <!-- Clear Button -->
                     <div style="align-self: end;">
-                      <button type="reset" class="view-btn" style="background-color: var(--red);">Clear All</button>
+                      
                     </div>
                   </form>
                   
                   <!-- Action Buttons -->
                   <div style="margin-top: 20px; display: flex; gap: 20px;">
-                    <button class="view-btn">Search</button>
-                    <button class="view-btn">Import</button>
-                    <button class="view-btn">Export</button>
-                    <button class="view-btn" style="background-color: var(--blue);">Submit</button>
+                    
+                    <button class="view-btn" style="background-color: var(--blue);" onclick="submitPatient()">提交</button>
+
+                    <button type="reset" class="view-btn" style="background-color: var(--red);">清除</button>
                   </div>
+
+                  <hr style="margin-top: 40px;">
+                    <h2 style="margin-top: 20px;">最近患者</h2>
+                    <div id="recentPatients" style="margin-top: 16px; display: flex; flex-direction: column; gap: 12px;"></div>
+
 
                   
               </div>

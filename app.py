@@ -1,6 +1,8 @@
 from flask import Flask, render_template
 import uuid
 import traceback
+import shutil
+import pymysql
 from flask import current_app
 from flask_sqlalchemy import SQLAlchemy
 from models import db  # 从 models 中引入 db 实例和模型类
@@ -413,8 +415,67 @@ def generate_report():
 
 
 
+from models import db, PatientInfo
+from flask import request, jsonify
+import os
+from werkzeug.utils import secure_filename
+from datetime import datetime
 
+@app.route('/api/add_patient', methods=['POST'])
+def add_patient():
+    try:
+        # 1. 获取表单字段
+        name = request.form.get("name")
+        gender = request.form.get("gender")
+        birthdate = request.form.get("birthdate")
+        patient_id = request.form.get("patient_id")
+        id_card = request.form.get("id_card")
+        phone = request.form.get("phone")
+        email = request.form.get("email")
+        bmode_file = request.files.get("bmode")
 
+        if not all([name, gender, birthdate, patient_id, id_card, phone, bmode_file]):
+            return jsonify({"status": "fail", "message": "缺少必填项"}), 400
+
+        # 2. 自动计算年龄（按年）
+        birth_year = int(birthdate.split("-")[0])
+        age = str(2025 - birth_year)
+
+        # 3. 保存 B-mode 图像
+        save_dir = f"/home/www/BME_UI/for_test/{patient_id}"
+        os.makedirs(save_dir, exist_ok=True)
+        bmode_file.save(os.path.join(save_dir, "bmode.png"))
+
+        # 4. 存入数据库
+        new_patient = PatientInfo(
+            patient_id=patient_id,
+            name=name,
+            id_card=id_card,
+            gender=gender,
+            age=age,
+            phone=phone,
+            email=email
+        )
+        db.session.add(new_patient)
+        db.session.commit()
+
+        return jsonify({"status": "success"})
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"status": "fail", "message": str(e)})
+
+@app.route("/api/recent_patients", methods=["GET"])
+def get_recent_patients():
+    from models import PatientInfo
+    recent = PatientInfo.query.order_by(PatientInfo.id.desc()).limit(5).all()
+    return jsonify([
+        {
+            "name": p.name,
+            "patient_id": p.patient_id,
+            "id_card": p.id_card
+        } for p in recent
+    ])
 
 if __name__ == '__main__':
     
