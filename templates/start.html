@@ -25,17 +25,19 @@
       <!-- 右边表单 -->
       <form style="flex: 1; min-width: 400px; padding: 2em 0;">
         <div class="group">
-          <input type="text" required><span class="highlight"></span><span class="bar"></span>
-          <label>患者编号 Patient Number</label>
+          <input type="text" id="doctorID" required><span class="highlight"></span><span class="bar"></span>
+          <label>医生工号</label>
         </div>
         <div class="group">
-          <input type="text" required><span class="highlight"></span><span class="bar"></span>
-          <label>身份证号 Identification Number</label>
+          <input type="password" id="doctorPwd" required><span class="highlight"></span><span class="bar"></span>
+          <label>密码</label>
         </div>
-        <button type="button" class="button buttonBlue" onclick="redirectWithID()">确认
+        <button type="button" class="button buttonBlue" onclick="loginDoctor()">登录
           <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
         </button>
       </form>
+
+
     </div>
     <script src="{{ url_for('static', filename='info/patient.js') }}"></script>
     <script src="{{ url_for('static', filename='start.js') }}"></script>

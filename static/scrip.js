@@ -1,5 +1,48 @@
 let currentBmodeFile = null;  // 用于记录当前上传的图像
 let ceusFileList = [];
+function loadPatientData() {
+  const patientID = document.getElementById("patientInputID").value.trim();
+  const idCard = document.getElementById("patientInputCard").value.trim();
+
+  if (!patientID || !idCard) {
+    alert("请输入完整的患者编号和身份证号！");
+    return;
+  }
+
+  fetch("/api/patient_info", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      patient_id: patientID,
+      id_card: idCard
+    })
+  })
+  .then(res => res.json())
+  .then(result => {
+    if (!result.success) {
+      alert(result.message || "信息不存在/身份证号错误！");
+      return;
+    }
+
+    const match = result.data;
+    sessionStorage.setItem("patientID", match.id);
+    sessionStorage.setItem("patientName", match.name);
+    sessionStorage.setItem("patientCard", match.idcard);
+    sessionStorage.setItem("gender", match.gender);
+    sessionStorage.setItem("age", match.age);
+    sessionStorage.setItem("phone", match.phone);
+    sessionStorage.setItem("email", match.email);
+    sessionStorage.removeItem("doctorAdvice");
+
+    window.location.reload();  // 重新加载页面触发自动加载影像逻辑
+  })
+  .catch(error => {
+    console.error("查询失败：", error);
+    alert("查询失败，请稍后再试！");
+  });
+}
 
 
 // window.onload = function () {
@@ -299,7 +342,7 @@ function startAnalysis() {
       diagBlock.innerHTML = `
           <p><strong>病灶属性:</strong>
           <td><span class="status completed" style="background-color: ${result === '恶性' ? '#941919' : '#3CB371'}; color: #ddd;">${result}</span></td></p>
-          <p><strong>置信度:</strong>93.2%</p>
+          
           
           
       `;

@@ -1,5 +1,21 @@
 console.log("✅ start.js 加载成功！");
+function loginDoctor() {
+  const id = document.getElementById("doctorID").value.trim();
+  const pwd = document.getElementById("doctorPwd").value.trim();
 
+  if (!id || !pwd) {
+    
+    return;
+  }
+
+  if (id === "123456" && pwd === "123456") {
+    window.location.href = "/home";
+  } else {
+    alert("医生工号或密码错误！");
+  }
+}
+
+loginDoctor()
 document.addEventListener("DOMContentLoaded", () => {
   const btn = document.querySelector("button");
 
@@ -10,51 +26,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const patientID = inputs[0].value.trim();
     const idCardInput = inputs[1].value.trim();
 
-    if (!patientID || !idCardInput) {
-      alert("请输入完整的患者编号和身份证号！");
-      return;
-    }
-
-    try {
-      const response = await fetch("/api/patient_info", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          patient_id: patientID,
-          id_card: idCardInput
-        })
-      });
-
-      const result = await response.json();
-
-      if (!result.success) {
-        alert(result.message || "信息不存在/身份证号错误！");
-        return;
-      }
-
-      const match = result.data;
-
-      // 写入 sessionStorage
-      sessionStorage.setItem("patientID", match.id);
-      sessionStorage.setItem("patientName", match.name);
-      sessionStorage.setItem("patientCard", match.idcard);
-      sessionStorage.setItem("gender", match.gender);
-      sessionStorage.setItem("age", match.age);
-      sessionStorage.setItem("phone", match.phone);
-      sessionStorage.setItem("email", match.email);
-      // const age = match.idcard;
-      // alert("患者年龄是: " + age + "岁");
-
-      setTimeout(() => {
-        window.location.href = "/home";
-      }, 400);
-
-    } catch (error) {
-      console.error("查询失败：", error);
-      alert("查询失败，请稍后再试！");
-    }
   });
 
   const inputs = document.querySelectorAll("input");
@@ -85,3 +56,4 @@ function createRipple(e) {
   void rippleContainer.offsetWidth;
   rippleContainer.classList.add("is-active");
 }
+

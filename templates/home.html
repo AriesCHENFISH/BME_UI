@@ -40,39 +40,15 @@
               </a>
             </li>
             <li>
-              <a href="#" data-target="analytics">
-                <i class='bx bx-pulse bx-sm'></i>
-                <span class="text">分析记录</span>
-              </a>
-            </li>
-            <li>
               <a href="#" data-target="case-history">
                 <i class='bx bx-history bx-sm'></i>
                 <span class="text">历史病例</span>
               </a>
             </li>
-            <li>
-              <a href="#" data-target="about-us">
-                <i class='bx bxs-info-circle bx-sm'></i>
-                <span class="text">关于</span>
-              </a>
-            </li>
+            
           </ul>
           
-		<ul class="side-menu bottom">
-			<li>
-				<a href="#">
-					<i class='bx bxs-cog bx-sm bx-spin-hover' ></i>
-					<span class="text">Settings</span>
-				</a>
-			</li>
-			<li>
-				<a href="#" class="logout">
-					<i class='bx bx-power-off bx-sm bx-burst-hover' ></i>
-					<span class="text">Logout</span>
-				</a>
-			</li>
-		</ul>
+	
 	</section>
 	<!-- SIDEBAR -->
 
@@ -83,10 +59,10 @@
 		<!-- NAVBAR -->
 <nav>
     <i class='bx bx-menu bx-sm' ></i>
-    <a href="#" class="nav-link">Categories</a>
+    <a href="#" class="nav-link"></a>
     <form action="#">
         <div class="form-input">
-            <input type="search" placeholder="Search...">
+            <input type="search" placeholder="搜索...">
             <button type="submit" class="search-btn"><i class='bx bx-search' ></i></button>
         </div>
     </form>
@@ -100,8 +76,7 @@
     <!-- Notification Bell -->
     <!-- Notification Bell -->
     <a href="#" class="notification" id="notificationIcon">
-        <i class='bx bxs-cloud-download' ></i>
-        <span class="num">1</span>
+        
     </a>
 
     <div class="notification-menu" id="notificationMenu">
@@ -128,7 +103,7 @@
 
     <!-- Profile Menu -->
     <a href="#" class="profile" id="profileIcon">
-        <i class='bx bxs-user-circle bx-sm'  ></i>
+        
     </a>
     <div class="profile-menu" id="profileMenu">
         <ul>
@@ -146,16 +121,8 @@
             <div id="instructions" class="content-section" style="display: none;">
                 <div class="head-title">
                     <div class="left">
-                        <h1>使用指南 Instructions</h1>
-                        <ul class="breadcrumb">
-                            <li>
-                                <a href="#">Upload Images</a>
-                            </li>
-                            <li><i class='bx bx-chevron-right' ></i></li>
-                            <li>
-                                <a class="active" href="#">Download Cases</a>
-                            </li>
-                        </ul>
+                        <h1>使用指南</h1>
+                        
                     </div>
                     <a href="{{ url_for('static', filename='README.pdf') }}" class="btn-download" download>
                         <i class='bx bxs-cloud-download bx-fade-down-hover'></i>
@@ -215,28 +182,24 @@
             <div id="patient-info" class="content-section" style="display: none;">
                 <div class="head-title">
                     <div class="left">
-                      <h1>患者信息 Patient Infomation</h1>
-                      <ul class="breadcrumb">
-                        <li><a href="#">Dashboard</a></li>
-                        <li><i class='bx bx-chevron-right'></i></li>
-                        <li><a class="active" href="#">Patient Info</a></li>
-                      </ul>
+                      <h1>患者信息</h1>
+                      
                     </div>
                   </div>
                   
                   <form action="#" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 60px; margin-top: 50px;">
                     <!-- Full Name -->
                     <div>
-                      <label style="color:rgb(0, 140, 255);">Full Name</label>
+                      <label style="color:rgb(0, 140, 255);">姓名</label>
                       <div class="form-input">
-                        <input type="text" placeholder="e.g. Sarah Johnson" required />
+                        <input type="text" placeholder="例如：王小红" required />
                       </div>
-                      <small style="color:rgb(99, 101, 103);">Letters and spaces only</small>
+                      <small style="color:rgb(99, 101, 103);">必填项</small>
                     </div>
                   
                     <!-- Gender -->
                     <div>
-                        <label style="color:rgb(0, 140, 255);">Gender</label>
+                        <label style="color:rgb(0, 140, 255);">性别</label>
                         <div class="form-input">
                           <select style="
                             height: 36px;
@@ -252,59 +215,57 @@
                             font-family: var(--poppins);
                             cursor: pointer;
                           ">
-                            <option disabled selected hidden style="color:rgb(99, 101, 103)">Select gender</option>
-                            <option value="female">Female</option>
-                            <option value="male">Male</option>
-                            <option value="other">Other</option>
+                            <option disabled selected hidden style="color:rgb(99, 101, 103)">选择性别</option>
+                            <option value="female">女</option>
+                            <option value="male">男</option>
+                            <option value="other">其它</option>
                           </select>
                         </div>
-                        <small style="color:rgb(99, 101, 103);">Required field</small>
+                        <small style="color:rgb(99, 101, 103);">必填项</small>
                       </div>
                       
                   
                     <!-- Date of Birth -->
                     <div>
-                      <label style="color:rgb(0, 140, 255);">Date of Birth</label>
+                      <label style="color:rgb(0, 140, 255);">出生日期</label>
                       <div class="form-input">
                         <input type="date" required />
                       </div>
-                      <small style="color:rgb(99, 101, 103);">Format: YYYY-MM-DD</small>
+                      <small style="color:rgb(99, 101, 103);">格式：YYYY-MM-DD</small>
                     </div>
                   
                     <!-- ID Number -->
                     <div>
-                      <label style="color:rgb(0, 140, 255);">ID / Passport Number</label>
+                      <label style="color:rgb(0, 140, 255);">身份证号</label>
                       <div class="form-input">
-                        <input type="text" placeholder="e.g. A123456789" />
+                        <input type="text" placeholder="例如：3411XXXXXXXXXXXXXX" />
                       </div>
-                      <small style="color:rgb(99, 101, 103);">Numbers and capital letters only</small>
+                      <small style="color:rgb(99, 101, 103);">请填写18位身份证号</small>
                     </div>
                   
                     <!-- Phone Number -->
                     <div>
-                      <label style="color:rgb(0, 140, 255);">Phone Number</label>
+                      <label style="color:rgb(0, 140, 255);">联系方式</label>
                       <div class="form-input">
-                        <input type="tel" placeholder="e.g. +61 400 123 456" />
+                        <input type="tel" placeholder="例如： +86 1XX XXXX XXXX" />
                       </div>
-                      <small style="color:rgb(99, 101, 103);">Include country code</small>
+                      <small style="color:rgb(99, 101, 103);">必填项</small>
                     </div>
                   
                     <!-- Email -->
                     <div>
-                      <label style="color:rgb(0, 140, 255);">Email Address</label>
+                      <label style="color:rgb(0, 140, 255);">邮箱地址</label>
                       <div class="form-input">
-                        <input type="email" placeholder="e.g. user@example.com" />
+                        <input type="email" placeholder="例如： user@example.com" />
                       </div>
-                      <small style="color:rgb(99, 101, 103);">Valid email format required</small>
+                      <small style="color:rgb(99, 101, 103);">选填</small>
                     </div>
 
-                    
-                  
                     <!-- Upload File -->
                     <div>
-                        <label style="color:rgb(0, 140, 255);">Upload Patient File</label>
+                        <label style="color:rgb(0, 140, 255);">上传患者b-mode图像</label>
                         <div class="form-input">
-                          <input type="file" id="fileUpload" accept=".pdf,.doc,.docx,.csv" style="display: none;" />
+                          <input type="file" id="fileUpload" accept=".png,.jpg" style="display: none;" />
                           
                           <label for="fileUpload" style="
                             width: 100%;
@@ -323,7 +284,7 @@
                             Upload
                           </label>
                         </div>
-                        <small style="color:rgb(99, 101, 103);">PDF, Word or CSV only</small>
+                        <small style="color:rgb(99, 101, 103);">仅限.jpg/.png格式</small>
                       </div>
                       
                   
@@ -341,65 +302,7 @@
                     <button class="view-btn" style="background-color: var(--blue);">Submit</button>
                   </div>
 
-                  <div class="table-data">
-                    <div class="order">
-                        <div class="head">
-                            <h3>Recent Cases</h3>
-                            <i class='bx bx-search' ></i>
-                            <i class='bx bx-filter' ></i>
-                        </div>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Patient</th>
-                                    <th>Date of the Latest Diagnose</th>
-                                    <th>Results</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <img src="https://placehold.co/600x400/png">
-                                        <p>Micheal John</p>
-                                    </td>
-                                    <td>26-3-2025</td>
-                                    <td><span class="status completed">Benign</span></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <img src="https://placehold.co/600x400/png">
-                                        <p>Ryan Doe</p>
-                                    </td>
-                                    <td>26-3-2025</td>
-                                    <td><span class="status pending">Malignant</span></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <img src="https://placehold.co/600x400/png">
-                                        <p>Tarry White</p>
-                                    </td>
-                                    <td>26-3-2025</td>
-                                    <td><span class="status pending">Malignant</span></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <img src="https://placehold.co/600x400/png">
-                                        <p>Selma</p>
-                                    </td>
-                                    <td>26-3-2025</td>
-                                    <td><span class="status pending">Malignant</span></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <img src="https://placehold.co/600x400/png">
-                                        <p>Andreas Doe</p>
-                                    </td>
-                                    <td>26-3-2025</td>
-                                    <td><span class="status completed">Benign</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                  
               </div>
 
             </div>
@@ -432,23 +335,23 @@
                     
 
                     <div class="head-title">
+                        
+
                         <div class="left">
                             
                             <h1>
                                 工作台
                             </h1>
-                            <ul class="breadcrumb">
-                                <li>
-                                    <a href="#">Upload Images</a>
-                                </li>
-                                <li><i class='bx bx-chevron-right' ></i></li>
-                                <li>
-                                    <a class="active" href="#">Download Cases</a>
-                                </li>
-                            </ul>
+                        
                             
                         </div>
-                        <button style="padding: 10px; font-size: 16px; background: #062958; color: white; border: none; border-radius: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; gap: 8px;" onclick="toggleSidebar()"><i class='bx bxs-user-detail' style='color:#ffffff' ></i>显示患者信息</button>
+                        <div style="margin-bottom: 24px; display: flex; gap: 16px; align-items: center;">
+                        <input type="text" id="patientInputID" placeholder="患者编号" style="padding: 10px; border: 1px solid #ccc; border-radius: 8px;" />
+                        <input type="text" id="patientInputCard" placeholder="患者ID" style="padding: 10px; border: 1px solid #ccc; border-radius: 8px;" />
+                        <button onclick="loadPatientData()" style="padding: 10px 16px; background: #062958; color: white; border: none; border-radius: 8px;">加载患者数据</button>
+                        <button style="padding: 10px 16px; background: #062958; color: white; border: none; border-radius: 8px;" onclick="toggleSidebar()"><i class='bx bxs-user-detail' style='color:#ffffff' ></i>显示患者信息</button>
+                        </div>
+                        
                     </div>
                     <div style="display: flex; justify-content: space-between; gap: 24px;">
                         <!-- Upload Section -->
@@ -461,7 +364,7 @@
                                     <label style="font-weight: 600; font-size: 16px; display: block; margin-bottom: 10px;">更新B-mode影像</label>
                                     <input type="file" id="bmodeInput" accept="image/jpeg, image/png" style="display: none;" onchange="handleBmodeUpload(event)" />
                                     <button class="upload-btn" style="width: 100%; padding: 10px; font-size: 16px; background: #3C91E6; color: white; border: none; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; gap: 8px;" onclick="document.getElementById('bmodeInput').click();">
-                                        <i class='bx bx-upload'></i> Upload B-mode
+                                        <i class='bx bx-upload'></i> 上传 b-mode 影像
                                     </button>
                                     <small style="display: block; margin-top: 8px; color: #555;">格式: JPG / PNG &nbsp; | &nbsp; 最大尺寸: 10MB</small>
                                 </div>
@@ -473,7 +376,7 @@
                                     <input type="file" id="ceusInput" accept="image/*" webkitdirectory directory multiple onchange="handleCeusUpload(event)" style="display: none;"/>
 
                                     <button class="upload-btn" style="width: 100%; padding: 10px; font-size: 16px; background: #3C91E6; color: white; border: none; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; gap: 8px;" onclick="document.getElementById('ceusInput').click();">
-                                        <i class='bx bx-upload'></i> Upload CEUS
+                                        <i class='bx bx-upload'></i> 上传 CEUS 影像
                                     </button>
                                     <small style="display: block; margin-top: 8px; color: #555;">格式: 含有60帧图像的文件夹 &nbsp; | &nbsp; 每张: JPG / PNG &nbsp; | &nbsp; 总共 ≈ 10MB</small>
 
@@ -504,17 +407,8 @@
                         下载诊断报告
                     </button>
                         
-
-
-                        
                         </section>
                         
-                        
-                        
-
-
-
-        
                         <section class="card" style="flex: 1; display: flex; flex-direction: column; gap: 16px;">
                             <button class="analyze-btn" style="width: 100%; padding: 10px; font-size: 16px; background: #941919; color: white; border: none; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; gap: 8px;" onclick="startAnalysis()">
                                 <i class='bx bxs-caret-right-circle bx-sm' style='color:#ffffff'></i> 开始分析
@@ -553,7 +447,7 @@
                                 <div style="flex: 1;">
                                 <label style="font-weight: 600; font-size: 16px; display: block; margin-bottom: 10px;">下载B-mode掩码</label>
                                 <button class="download-btn" onclick="downloadBmodeResult()" style="width: 100%; padding: 10px; font-size: 16px; background: #3C91E6; color: white; border: none; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; gap: 8px;">
-                                    <i class='bx bx-download'></i> Download B-mode
+                                    <i class='bx bx-download'></i> 下载 b-mode 掩码
                                 </button>
                                 
                                 </div>
@@ -562,7 +456,7 @@
                                 <div style="flex: 1;">
                                 <label style="font-weight: 600; font-size: 16px; display: block; margin-bottom: 10px;">下载CEUS掩码</label>
                                 <button class="download-btn" onclick="downloadCeusResult()" style="width: 100%; padding: 10px; font-size: 16px; background: #3C91E6; color: white; border: none; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; gap: 8px;">
-                                    <i class='bx bx-download'></i> Download CEUS
+                                    <i class='bx bx-download'></i> 下载 CEUS 掩码
                                 </button>
                                 
                                 </div>
@@ -578,15 +472,11 @@
                     <section class="card">
                         <div class="tabs">
                         <button class="tab active" onclick="showTab('diagnosis')">诊断结果</button>
-                        <button class="tab" onclick="showTab('bmode')">B-mode分析</button>
-                        <button class="tab" onclick="showTab('ceus')">CEUS分析</button>
-                        <button class="tab" onclick="showTab('tumor')">病灶分析</button>
                         
                         </div>
 
                         <div class="tab-content" id="diagnosis">
                         <p><strong>病灶属性:</strong><td><span class="status completed" style="background-color: #1133ae;color: #ddd;">待诊断</span></td></p>
-                        <p><strong>置信度:</strong>N/A</p>
                         
                         
                         </div>
@@ -656,116 +546,13 @@
         </div>
 
 
-        <!-- Analytics -->
-            <div id="analytics" class="content-section" style="display: none;">
-                <div class="head-title">
-                    <div class="left">
-                        <h1>分析记录 Analytics</h1>
-                        <ul class="breadcrumb">
-                            <li><a href="#">Dashboard</a></li>
-                            <li><i class='bx bx-chevron-right'></i></li>
-                            <li><a class="active" href="#">Analytics</a></li>
-                        </ul>
-                    </div>
-                    <a href="#" class="btn-download">
-                        <i class='bx bxs-cloud-download bx-fade-down-hover'></i>
-                        <span class="text">Download Report</span>
-                    </a>
-                </div>
-                
-                <section class="card">
-                    <h3>AI Diagnostic Overview</h3>
-                    <div class="grid">
-                        <div class="overview-card">
-                            <h4>Total Cases</h4>
-                            <p>150</p>
-                        </div>
-                        <div class="overview-card">
-                            <h4>AI Diagnoses</h4>
-                            <p>120</p>
-                        </div>
-                        <div class="overview-card">
-                            <h4>Benign Diagnoses</h4>
-                            <p>85</p>
-                        </div>
-                        <div class="overview-card">
-                            <h4>Malignant Diagnoses</h4>
-                            <p>35</p>
-                        </div>
-                    </div>
-                </section>
-
-                <div style="display: flex; gap: 20px; background: #F9F9F9; padding: 20px; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 24px; flex-wrap: wrap; justify-content: space-between;">
-                    <div style="flex: 1; min-width: 140px; max-width: 240px;">
-                        <h3>Diagnostic Distribution</h3>
-                        <canvas id="diagnosticPieChart"></canvas>
-                    </div>
-                    <div style="flex: 1; min-width: 240px; max-width: 350px;">
-                        <h3>Average Peak Intensity over Time</h3>
-                        <canvas id="intensityBarChart"></canvas>
-                    </div>
-                    <div style="flex: 1; min-width: 240px; max-width: 350px;">
-                        <h3>Test Loss Trend</h3>
-                        <canvas id="uploadTrendLineChart"></canvas>
-                    </div>
-                    <div style="flex: 1; min-width: 240px; max-width: 350px;">
-                        <h3>Tumor Size Distribution</h3>
-                        <canvas id="tumorSizeBarChart"></canvas>
-                    </div>
-                </div>
-
-                
-                
-
-                
-          
-            <!-- Summary Stats -->
-            <div class="summary-stats">
-              <div class="stat-card">
-                
-                <div>
-                  <h4><i class='bx bx-file'></i>Total Cases</h4>
-                  <p>324</p>
-                </div>
-              </div>
-              <div class="stat-card">
-                
-                <div>
-                  <h4><i class='bx bxs-bot'></i>AI Diagnosed</h4>
-                  <p>289</p>
-                </div>
-              </div>
-              <div class="stat-card">
-                
-                <div>
-                  <h4><i class='bx bxs-virus'></i>Malignant Rate</h4>
-                  <p>36%</p>
-                </div>
-              </div>
-              <div class="stat-card">
-                
-                <div>
-                  
-                  <h4><i class='bx bx-time-five'></i>Avg Inference Time</h4>
-                  <p>4.8s</p>
-                </div>
-              </div>
-            </div>
-            <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix"></script>
-            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-            <script src="{{ url_for('static', filename='analysic.js') }}"></script>
-        </div>
 
         <div id="case-history" class="content-section" style="display: none;">
             <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
             <div class="head-title">
                 <div class="left">
                     <h1>历史记录</h1>
-                    <ul class="breadcrumb">
-                        <li><a href="#">Dashboard</a></li>
-                        <li><i class='bx bx-chevron-right'></i></li>
-                        <li><a class="active" href="#">Recent Cases</a></li>
-                    </ul>
+                    
                 </div>
                 
             </div>
@@ -784,11 +571,6 @@
            
         </div>
             
-
-        
-       
-              
-
 
 			
 		</main>

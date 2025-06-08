@@ -5,7 +5,11 @@ from flask import current_app
 from flask_sqlalchemy import SQLAlchemy
 from models import db  # 从 models 中引入 db 实例和模型类
 
-app = Flask(__name__)
+#  vim /etc/nginx/nginx.conf
+# gunicorn -k gevent -w 2 app:app --bind 0.0.0.0:8001
+
+
+app = Flask(__name__, static_url_path='/static')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://flaskuser:123456@47.122.30.152/breast_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
