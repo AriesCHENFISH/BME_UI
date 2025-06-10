@@ -16,6 +16,11 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://flaskuser:123456@47.122
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 
+app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024  # 允许最大50MB上传
+
+
+# from flask_cors import CORS
+# CORS(app, supports_credentials=True)  # 支持跨域 + cookie/session
 @app.route('/home')
 def home():
     return render_template('home.html')  
@@ -101,6 +106,9 @@ from flask import current_app
 
 @app.route('/analyze_all', methods=['POST'])
 def analyze_all():
+    print("✅ 收到分析请求！")
+    print("bmode:", request.files.get("bmode"))
+    print("ceus:", request.files.getlist("ceus[]"))
     try:
         if 'bmode' not in request.files or 'ceus[]' not in request.files:
             return jsonify({'error': 'Missing files'}), 400
@@ -476,6 +484,28 @@ def get_recent_patients():
             "id_card": p.id_card
         } for p in recent
     ])
+
+from flask import send_file
+import zipfile
+import io
+
+@app.route('/download_ceus/<patient_id>')
+def download_ceus(patient_id):
+    ceus_folder = os.path.join("./for_test", patient_id, "60frames")
+    if not os.path.exists(ceus_folder):
+        return jsonify({"error": "路径不存在"}), 404
+
+    memory_file = io.BytesIO()
+    with zipfile.ZipFile(memory_file, 'w') as zf:
+        for filename in sorted(os.listdir(ceus_folder)):
+            if filename.lower().endswith(('.png', '.jpg', '.jpeg')):
+                zf.write(os.path.join(ceus_folder, filename), arcname=filename)
+    memory_file.seek(0)
+
+    return send_file(memory_file, mimetype='application/zip',
+                     download_name=f"{patient_id}_ceus.zip", as_attachment=False)
+
+
 
 if __name__ == '__main__':
     

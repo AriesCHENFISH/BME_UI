@@ -1,5 +1,16 @@
 let currentBmodeFile = null;  // 用于记录当前上传的图像
 let ceusFileList = [];
+document.addEventListener("DOMContentLoaded", function () {
+  const activeTab = sessionStorage.getItem("activeTab");
+  if (activeTab) {
+    const tabTrigger = document.querySelector(`[data-target="${activeTab}"]`);
+    if (tabTrigger) tabTrigger.click();
+    sessionStorage.removeItem("activeTab");
+  }
+  loadHistory(patientID);
+});
+
+
 // 自动加载最近5位患者
 function loadRecentPatients() {
   fetch("/api/recent_patients")
@@ -76,6 +87,9 @@ function submitPatient() {
   .then(result => {
     if (result.status === "success") {
       alert("✅ 患者信息添加成功！");
+      sessionStorage.setItem("activeTab", "patient-info");  // 标记标签页
+      location.reload(); // 🔁 刷新页面
+      loadRecentPatients();
     } else {
       alert("❌ 添加失败：" + result.message);
     }
@@ -85,7 +99,6 @@ function submitPatient() {
     alert("❌ 提交出错！");
   });
 }
-
 function loadPatientData() {
   const patientID = document.getElementById("patientInputID").value.trim();
   const idCard = document.getElementById("patientInputCard").value.trim();
@@ -121,8 +134,13 @@ function loadPatientData() {
     sessionStorage.setItem("phone", match.phone);
     sessionStorage.setItem("email", match.email);
     sessionStorage.removeItem("doctorAdvice");
+    sessionStorage.setItem("activeTab", "workbenchs");
+    setTimeout(() => {
+      alert("✅ 患者信息加载成功！");
+      location.reload();  // 替代 window.location.href
+    }, 100);
 
-    window.location.reload();  // 重新加载页面触发自动加载影像逻辑
+
   })
   .catch(error => {
     console.error("查询失败：", error);
@@ -131,29 +149,6 @@ function loadPatientData() {
 }
 
 
-// window.onload = function () {
-//   // 强制页面刷新后定位到顶部
-//   window.scrollTo({ top: 0, behavior: 'auto' });
-//   const patientID = sessionStorage.getItem("patientID");
-//   if (patientID) {
-//     const formData = new FormData();
-//     formData.append("patient_id", patientID);
-
-//     fetch("/auto_load", {
-//       method: "POST",
-//       body: formData,
-//     })
-//       .then(res => res.json())
-//       .then(data => {
-//         if (data.error) {
-//           console.warn(data.error);
-//           return;
-//         }
-//         // 自动调用已有 startAnalysis() 的结果展示逻辑
-//         displayPreviews(data.bmode_preview, data.ceus_preview);  // 只负责展示，不做分析
-//       });
-//   }
-// };
 const patientID_total = sessionStorage.getItem("patientID");
 const patientName_total = sessionStorage.getItem("patientName");
 window.onload = function () {
@@ -433,39 +428,6 @@ function startAnalysis() {
           
       `;
 
-      // 同样可更新其他 tab（B-mode / CEUS / Tumor）的内容 ↓↓↓
-      document.getElementById('bmode').innerHTML = `
-          <p><strong>Resolution:</strong> 224 x 224</p>
-          <p><strong>Format:</strong> PNG</p>
-          <p><strong>Scan Depth:</strong> 5 cm</p>
-          <p><strong>Focus Zones:</strong> 2</p>
-          <p><strong>Gain:</strong> 45%</p>
-          <p><strong>TI (Thermal Index):</strong> 0.3</p>
-          <p><strong>MI (Mechanical Index):</strong> 0.8</p>
-          <p><strong>Artifacts:</strong> None Detected</p>
-      `;
-
-      document.getElementById('ceus').innerHTML = `
-          <p><strong>Frames:</strong> 60</p>
-          <p><strong>Duration:</strong> ~10s (estimated)</p>
-          <p><strong>Peak Intensity:</strong> --</p>
-          <p><strong>Arrival Time:</strong> --</p>
-          <p><strong>Time to Peak:</strong> --</p>
-          <p><strong>Washout Start:</strong> --</p>
-          <p><strong>Average Slope:</strong> --</p>
-          <p><strong>Contrast Agent:</strong> SonoVue</p>
-      `;
-
-      document.getElementById('tumor').innerHTML = `
-          <p><strong>Location:</strong> Upper outer quadrant</p>
-          <p><strong>Size:</strong> ~14 mm</p>
-          <p><strong>Area:</strong> ~150 mm²</p>
-          <p><strong>Shape:</strong> Irregular</p>
-          <p><strong>Margins:</strong> Spiculated</p>
-          <p><strong>Vascularity:</strong> Moderate</p>
-          <p><strong>Contrast Enhancement:</strong> Heterogeneous</p>
-          <p><strong>Lesion Depth:</strong> 2.1 cm</p>
-      `;
 
       alert("分析完成！");
       saveAnalysisResult(patientName_total, patientID_total, result, patientID_total+".pdf", "path2");
@@ -512,13 +474,13 @@ function loadHistory(patientID) {
 
 
 
-document.addEventListener("DOMContentLoaded", function () {
-  const patientID = sessionStorage.getItem("patientID");
-  if (patientID) {
-    loadHistory(patientID);
-    // alert("加载历史！");
-  }
-});
+// document.addEventListener("DOMContentLoaded", function () {
+//   const patientID = sessionStorage.getItem("patientID");
+//   if (patientID) {
+//     loadHistory(patientID);
+//     // alert("加载历史！");
+//   }
+// });
 
 
 
@@ -624,3 +586,4 @@ function updateOpacityCEUS() {
     backgroundImage.style.opacity = 1 - opacity;  // Darker background as opacity increases
     maskImage.style.opacity = 1;  // Keep mask fully visible, so its opacity is 1
 }
+
