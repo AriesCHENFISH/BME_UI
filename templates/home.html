@@ -119,6 +119,8 @@
 		<!-- MAIN -->
 		<main>
             <div id="instructions" class="content-section" style="display: none;">
+              <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
                 <div class="head-title">
                     <div class="left">
                         <h1>使用指南</h1>
@@ -126,60 +128,76 @@
                     </div>
                     <a href="{{ url_for('static', filename='README.pdf') }}" class="btn-download" download>
                         <i class='bx bxs-cloud-download bx-fade-down-hover'></i>
-                        <span class="text">Get README</span>
+                        <span class="text">获取 README</span>
                     </a>
                     
                 </div>
 
                 <ul class="box-info">
-                    <!-- PART 1 -->
-                    <li>
-                    <i class='bx bxs-image-add'></i>
-                    <span class="text">
-                        <h3>Step 1: Upload Images</h3>
-                        <p>📁 <strong>Supported Types:</strong> B-mode images and CEUS video (PNG / JPG / MP4)</p>
-                        <p>🖼️ You can upload multiple images at once, drag & drop supported.</p>
-                        <p>📏 Please make sure image resolution is <strong>400×600</strong> for best results.</p>
-                        <p>🔍 Preview images before submission to avoid input mistakes.</p>
-                        <p>🆔 File names must be anonymized (no patient info).</p>
-                        <p>⏱️ CEUS video should be at least <strong>10 seconds</strong> long to capture perfusion.</p>
-                        <p>📌 <em>Tip:</em> The system auto-selects key CEUS frames for optimal performance.</p>
-                    </span>
-                    </li>
-                
-                    <!-- PART 2 -->
-                    <li>
-                    <i class='bx bxs-bot'></i>
-                    <span class="text">
-                        <h3>Step 2: Run AI Inference</h3>
-                        <p>🤖 Click <strong>Run Diagnosis</strong> to launch the model.</p>
-                        <p>🧠 The model performs tumor segmentation and classifies lesion as <strong>benign or malignant</strong>.</p>
-                        <p>🩺 Extracted features include:</p>
-                        <p>📈 Time-intensity curve</p>
-                        <p>📊 Peak intensity & time-to-peak</p>
-                        <p>🎯 Tumor center & size</p>
-                        <p>⚡ Inference takes ~5s per case and runs on either local or cloud backend.</p>
-                        <p>🔎 Results will be visualized immediately after processing completes.</p>
-                    </span>
-                    </li>
-                
-                    <!-- PART 3 -->
-                    <li>
-                    <i class='bx bxs-file-export'></i>
-                    <span class="text">
-                        <h3>Step 3: Generate Diagnostic Report</h3>
-                        <p>📋 All results are compiled into a structured, printable report.</p>
-                        <p>🖼️ Includes original image with overlay, tumor location, and AI classification.</p>
-                        <p>📂 One-click export available in PDF and JSON formats.</p>
-                        <p>🧾 Each report has a unique case ID and is automatically saved in the case archive.</p>
-                        <p>🔐 Reports can be securely shared with medical teams or uploaded to patient records.</p>
-                        <p>🛠️ <em>Tip:</em> You can customize the report format in the <strong>Settings</strong> panel.</p>
-                    </span>
-                    </li>
+                    <div class="container mt-4">
+                    <div class="card mb-4">
+                      <div class="card-header bg-primary text-white">
+                        ✅ 第一步：上传图像（推荐使用本地文件夹批量上传）
+                      </div>
+                      <div class="card-body">
+                        <ul>
+                          <li><strong>支持类型：</strong>B-mode 图像（PNG/JPG） 和 CEUS 图像序列（PNG/JPG）</li>
+                          <li><strong>推荐方式：</strong><span class="text-success">直接选择本地文件夹上传图像序列（速度最快）</span></li>
+                          <li><strong>支持多图上传：</strong> 支持文件夹拖拽上传</li>
+                          <li><strong>图像建议分辨率：</strong>400×600</li>
+                          <li><strong>注意事项：</strong> 请确保文件名不包含患者隐私信息（匿名处理）</li>
+                          <li><strong>温馨提示：</strong> 系统支持自动加载历史图像（ZIP），但 <span class="text-danger">本地上传依然最快</span></li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div class="card mb-4">
+                      <div class="card-header bg-success text-white">
+                        🤖 第二步：运行 AI 分析
+                      </div>
+                      <div class="card-body">
+                        <ul>
+                          <li><strong>点击：</strong><span class="badge bg-info text-dark">开始分析</span> 按钮，立即启动模型推理</li>
+                          <li><strong>模型功能：</strong>
+                            <ul>
+                              <li>肿瘤区域分割（B-mode + CEUS）</li>
+                              <li>良/恶性分类（深度特征融合）</li>
+                              <li>灌注分析参数（峰值、时间-强度曲线）</li>
+                            </ul>
+                          </li>
+                          <li><strong>分析耗时：</strong>约 5 秒 / 病例</li>
+                          <li><strong>结果输出：</strong> 分割图、预测分类实时显示</li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div class="card mb-4">
+                      <div class="card-header bg-warning text-dark">
+                        📝 第三步：生成诊断报告
+                      </div>
+                      <div class="card-body">
+                        <ul>
+                          <li><strong>一键导出：</strong>结构化诊断报告（PDF / JSON 可选）</li>
+                          <li><strong>报告内容包含：</strong>
+                            <ul>
+                              <li>原始图像与 AI 标注结果</li>
+                              <li>肿瘤属性、分类结果、分析摘要</li>
+                              <li>病例编号、时间戳、医生建议</li>
+                            </ul>
+                          </li>
+                          <li><strong>自动归档：</strong>支持历史查询与导出</li>
+                          <li><strong>安全共享：</strong>可上传至 HIS / PACS / 邮件发送</li>
+                          <li><strong>可配置模板：</strong>支持个性化医院/机构设置</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
                 </ul>
             </div>
 
             <div id="patient-info" class="content-section" style="display: none;">
+              <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
                 <div class="head-title">
                     <div class="left">
                       <h1>患者信息</h1>
@@ -229,7 +247,7 @@
                     <div>
                       <label style="color:rgb(0, 140, 255);">出生日期</label>
                       <div class="form-input">
-                        <input type="date" required />
+                        <input type="text" id="birthdate" placeholder="请选择出生日期" required />
                       </div>
                       <small style="color:rgb(99, 101, 103);">格式：YYYY-MM-DD</small>
                     </div>
@@ -317,6 +335,14 @@
 
                   
               </div>
+              <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+              <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/zh.js"></script>
+              <script>
+                flatpickr("#birthdate", {
+                  dateFormat: "Y-m-d",
+                  locale: "zh" // 关键：设置中文
+                });
+              </script>
 
             </div>
 
@@ -324,6 +350,7 @@
                 <!-- Workbench Section -->
             <div id="workbenchs" class="content-section">
                 <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+                
                 <div class="app">
                 <!-- Sidebar -->
                 <aside id="sidebar1" class="sidebar1">
