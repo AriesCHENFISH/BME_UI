@@ -256,7 +256,7 @@ function toggleSidebar() {
         button.textContent = "Show Sidebar"; // Change button text
     } else {
         sidebar1.style.transform = "translateX(0%)";  // Show the Patient Info sidebar
-        button.textContent = "Hide Sidebar"; // Change button text
+        button.textContent = "隐藏患者信息"; // Change button text
     }
 }
 
