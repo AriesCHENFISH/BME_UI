@@ -1,7 +1,3 @@
-Sure! Here's the complete translation of your project documentation into English, maintaining the original format:
-
----
-
 # Accurate Diagnosis Method for Breast Tumors Based on Multimodal Ultrasound Dynamic Imaging
 
 ## Project Overview
